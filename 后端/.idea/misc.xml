@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/online-learning-son" />
     <file type="web" url="file://$PROJECT_DIR$/online-learning-web-student" />
   </component>
   <component name="JavaScriptSettings">
@@ -10,12 +11,13 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/online-learning-web-student/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
-        <option value="$PROJECT_DIR$/online-learning-commons/pom.xml" />
+        <option value="$PROJECT_DIR$/online-learning-dependencies/pom.xml" />
+        <option value="$PROJECT_DIR$/online-learning-son/pom.xml" />
+        <option value="$PROJECT_DIR$/untitled/pom.xml" />
       </set>
     </option>
   </component>
