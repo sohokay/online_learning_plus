@@ -1,10 +1,11 @@
 package top.musuixin.onlinelearningwebstudent.controller;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import top.musuixin.commons.Hi;
+import org.springframework.web.multipart.MultipartFile;
+import top.musuixin.commons.util.UploadPicture;
 
 /**
  * @author musuixin
@@ -14,9 +15,10 @@ import top.musuixin.commons.Hi;
 @CrossOrigin
 @RequestMapping("/hi")
 public class Hello {
-    @GetMapping("/hi")
-    public String Hi() {
-        Hi hi = new Hi();
-        return hi.say();
+    @PostMapping("/hi")
+    public String Hi(MultipartFile file) {
+        System.err.println(file);
+        String up = UploadPicture.up(file);
+        return "hihihihihi";
     }
 }
