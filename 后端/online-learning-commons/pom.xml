@@ -13,6 +13,18 @@
     </parent>
     <groupId>top.musuixin</groupId>
     <version>0.0.1-SNAPSHOT</version>
+    <distributionManagement>
+        <repository>
+            <id>nexus-releases</id>
+            <name>Nexus Release Repository</name>
+            <url>http://192.168.160.131/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus-snapshots</id>
+            <name>Nexus Snapshot Repository</name>
+            <url>http://192.168.160.131/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -31,7 +43,6 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-
         <!--        七牛存储-->
         <dependency>
             <groupId>com.qiniu</groupId>
@@ -66,10 +77,5 @@
             <artifactId>jjwt</artifactId>
             <version>0.9.1</version>
         </dependency>
-
-
-
-
     </dependencies>
-
 </project>

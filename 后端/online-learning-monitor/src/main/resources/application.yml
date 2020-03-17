@@ -20,7 +20,6 @@ spring:
         mail:
           to: 1154430034@qq.com
           from: 1804125652@qq.com
-
 #  #邮箱服务
 #  spring.mail.host=smtp.qq.com
 #  #邮箱地址
