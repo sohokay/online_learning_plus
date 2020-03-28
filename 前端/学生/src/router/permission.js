@@ -3,7 +3,7 @@ import store from '../store'
 // import {getToken} from '@/utils/auth' // get token from cookie
 // import getPageTitle from '@/utils/get-page-title'
 
-const whiteList = ['/login','/register',"hwllo"] // no redirect whitelist
+const whiteList = ['/login','/register'] // no redirect whitelist
 
 router.beforeEach(async (to, from, next) => {
     // set page title
