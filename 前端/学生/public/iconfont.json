@@ -1,0 +1,86 @@
+{
+  "id": "1660686",
+  "name": "仿mooc前台",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "2211064",
+      "name": "叉",
+      "font_class": "cha",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "11121432",
+      "name": "表单",
+      "font_class": "biaodan",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "1450457",
+      "name": "前进",
+      "font_class": "qianjin",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "1082775",
+      "name": "输入",
+      "font_class": "icon",
+      "unicode": "e698",
+      "unicode_decimal": 59032
+    },
+    {
+      "icon_id": "10392382",
+      "name": "返回",
+      "font_class": "icon-",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "1572539",
+      "name": "奖牌",
+      "font_class": "medal",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "3176645",
+      "name": "GitHub",
+      "font_class": "GitHub",
+      "unicode": "ea0a",
+      "unicode_decimal": 59914
+    },
+    {
+      "icon_id": "8955108",
+      "name": "课程表",
+      "font_class": "kechengbiao",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
+      "icon_id": "3719484",
+      "name": "数学",
+      "font_class": "shuxue-",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "4075975",
+      "name": "计算机",
+      "font_class": "jisuanji",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "4075989",
+      "name": "英语",
+      "font_class": "yingyu",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    }
+  ]
+}
