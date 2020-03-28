@@ -11,6 +11,11 @@
     <properties>
         <spring-cloud.version>Greenwich.RELEASE</spring-cloud.version>
         <spring-cloud-alibaba.verion>0.9.0.RELEASE</spring-cloud-alibaba.verion>
+        <online-learning.version>1.0-SNAPSHOT</online-learning.version>
+        <io-jsonwebtoken.version>0.9.1</io-jsonwebtoken.version>
+        <mybatis-plus-boot-starter.version>3.3.0</mybatis-plus-boot-starter.version>
+        <mybatis-plus-generator.version>3.3.0</mybatis-plus-generator.version>
+        <hutool-all.version>5.2.4</hutool-all.version>
     </properties>
 
     <licenses>
@@ -43,6 +48,51 @@
                 <version>${spring-cloud-alibaba.verion}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <artifactId>online-learning-security</artifactId>
+                <groupId>top.musuixin</groupId>
+                <version>${online-learning.version}</version>
+            </dependency>
+            <dependency>
+                <artifactId>online-learning-redis</artifactId>
+                <groupId>top.musuixin</groupId>
+                <version>${online-learning.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${io-jsonwebtoken.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus-boot-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatis-plus-generator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>top.musuixin</groupId>
+                <artifactId>online-learning-mapper</artifactId>
+                <version>${online-learning.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>top.musuixin</groupId>
+                <artifactId>online-learning-service</artifactId>
+                <version>${online-learning.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool-all.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>top.musuixin</groupId>
+                <artifactId>online-learning-common-util</artifactId>
+                <version>${online-learning.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

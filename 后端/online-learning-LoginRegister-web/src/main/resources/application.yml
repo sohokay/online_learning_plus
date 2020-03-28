@@ -1,7 +1,12 @@
 spring:
+  datasource:
+    username: musuixin
+    password: CSRQ19971031yu
+    url: jdbc:mysql://rm-bp1783uv4c566u27tmo.mysql.rds.aliyuncs.com/online_learning?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
   application:
     # 服务名
-    name: online-learning-student-web
+    name: online-learning-LoginRegister-web
   cloud:
     nacos:
       discovery:
@@ -23,7 +28,7 @@ spring:
     timeout: 10000
 server:
   # 服务端口
-  port: 8010
+  port: 8000
 management:
   # 端点检查（健康检查）
   endpoints:
@@ -33,4 +38,4 @@ management:
 logging:
   level:
     top.musuixin: trace
-  file: F:\logger\online-learning-student-web.log
+  file: F:\logger\online-learning-LoginRegister-web.logs

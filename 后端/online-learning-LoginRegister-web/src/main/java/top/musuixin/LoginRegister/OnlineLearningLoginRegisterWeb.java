@@ -1,5 +1,6 @@
-package top.musuixin.studnet;
+package top.musuixin.LoginRegister;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -12,9 +13,10 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @EnableDiscoveryClient
 //扫描外部包
+@MapperScan(basePackages = "top.musuixin.mapper")
 @ComponentScan(value = "top.musuixin.*")
-public class OnlineLearningStudentWeb {
+public class OnlineLearningLoginRegisterWeb {
     public static void main(String[] args) {
-        SpringApplication.run(OnlineLearningStudentWeb.class, args);
+        SpringApplication.run(OnlineLearningLoginRegisterWeb.class, args);
     }
 }

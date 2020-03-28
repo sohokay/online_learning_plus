@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>online-learning-student-web</artifactId>
+    <artifactId>online-learning-LoginRegister-web</artifactId>
     <dependencies>
         <!-- Spring Boot Begin -->
         <dependency>
@@ -47,6 +47,10 @@
         <dependency>
             <artifactId>online-learning-redis</artifactId>
             <groupId>top.musuixin</groupId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
         <dependency>
             <groupId>top.musuixin</groupId>
