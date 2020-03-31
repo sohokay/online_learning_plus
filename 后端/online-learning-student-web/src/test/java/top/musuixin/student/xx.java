@@ -17,6 +17,6 @@ public class xx {
 
     @Test
     public void xx() {
-        redisService.set("12", "332");
+//        redisService.delete("hello");
     }
 }

@@ -1,5 +1,6 @@
 package top.musuixin.LoginRegister.Bean;
 
+import cn.hutool.extra.servlet.ServletUtil;
 import lombok.Data;
 
 /**
@@ -8,6 +9,10 @@ import lombok.Data;
  */
 @Data
 public class RegisterBean {
-
+   public void hello(){
+//       ServletUtil.getClientIP(){
+//
+//       }
+   }
 
 }
