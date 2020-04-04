@@ -1,4 +1,4 @@
-package top.musuixin.LoginRegister.config;
+package top.musuixin.loginregister.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import top.musuixin.security.JwtAuthenticationFilter;
@@ -19,12 +21,13 @@ import top.musuixin.security.JwtAuthenticationProvider;
 
 /**
  * Spring Security配置
+ * EnableWebSecurity 开启Spring Security
  *
  * @author Louis
  * @date Jan 14, 2019
  */
 @Configuration
-@EnableWebSecurity    // 开启Spring Security
+@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
@@ -32,15 +35,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    /**
+     *
+     * 此处执行认证流程
+     * @param auth
+     * @throws Exception
+     */
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        System.err.println("configure auth执行");
         auth.authenticationProvider(new JwtAuthenticationProvider(userDetailsService));
     }
 
+    /**
+     *
+     *   此处对用户进行授权
+     *   所有url都要经过此处
+     * @param http
+     * @throws Exception
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        System.err.println("configure http执行");
         // 禁用 csrf, 由于使用的是JWT，我们这里不需要csrf
         http.cors().and().csrf().disable()
                 .authorizeRequests()
@@ -48,7 +62,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // 首页和登录页面
 //                .antMatchers("/**").permitAll();
-                .antMatchers("/login").permitAll()
                 .antMatchers("/**").permitAll()
 //                .antMatchers("/github/**").permitAll()
 //                // swagger
@@ -72,6 +85,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManager() throws Exception {
         return super.authenticationManager();
 
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 
 }

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
  * @since 2020-03-26
  */
 @Service
-public class UserThirdAuthServiceImpl extends ServiceImpl<UserThirdAuthMapper, UserThirdAuth> implements IUserThirdAuthService {
+public class UserThirdAuthServiceImpl extends ServiceImpl<UserThirdAuthMapper, UserThirdAuth>
+		implements IUserThirdAuthService {
 
 }

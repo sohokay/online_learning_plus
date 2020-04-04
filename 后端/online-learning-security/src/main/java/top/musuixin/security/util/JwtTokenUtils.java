@@ -23,7 +23,7 @@ public class JwtTokenUtils implements Serializable {
     /**
      * 用户名称
      */
-    private static final String USERNAME = Claims.SUBJECT;
+    private static final String USERID= Claims.SUBJECT;
     /**
      * 创建时间
      */
@@ -48,7 +48,7 @@ public class JwtTokenUtils implements Serializable {
      */
     public static String generateToken(Authentication authentication) {
         Map<String, Object> claims = new HashMap<>(3);
-        claims.put(USERNAME, SecurityUtils.getUsername(authentication));
+        claims.put(USERID, SecurityUtils.getUserId(authentication));
         claims.put(CREATED, new Date());
         claims.put(ROLE, authentication.getAuthorities());
         return generateToken(claims);
@@ -71,15 +71,15 @@ public class JwtTokenUtils implements Serializable {
      * @param token 令牌
      * @return 用户名
      */
-    public static String getUsernameFromToken(String token) {
-        String username;
+    public static String getUserIdFromToken(String token) {
+        String UserId;
         try {
             Claims claims = getClaimsFromToken(token);
-            username = claims.getSubject();
+            UserId = claims.getSubject();
         } catch (Exception e) {
-            username = null;
+            UserId = null;
         }
-        return username;
+        return UserId;
     }
 
     /**
@@ -100,8 +100,8 @@ public class JwtTokenUtils implements Serializable {
                 if (claims == null) {
                     return null;
                 }
-                String username = claims.getSubject();
-                if (username == null) {
+                String userId = claims.getSubject();
+                if (userId == null) {
                     return null;
                 }
                 if (isTokenExpired(token)) {
@@ -115,9 +115,9 @@ public class JwtTokenUtils implements Serializable {
                         authorities.add(new GrantedAuthorityImpl((String) ((Map) object).get("authority")));
                     }
                 }
-                authentication = new JwtAuthenticatioToken(username, null, authorities, token);
+                authentication = new JwtAuthenticatioToken(userId, null, authorities, token);
             } else {
-                if (validateToken(token, SecurityUtils.getUsername())) {
+                if (validateToken(token, SecurityUtils.getUserId())) {
                     // 如果上下文中Authentication非空，且请求令牌合法，直接返回当前登录认证信息
                     authentication = SecurityUtils.getAuthentication();
                 }
@@ -146,12 +146,12 @@ public class JwtTokenUtils implements Serializable {
      * 验证令牌
      *
      * @param token
-     * @param username
+     * @param userid
      * @return
      */
-    public static Boolean validateToken(String token, String username) {
-        String userName = getUsernameFromToken(token);
-        return (userName.equals(username) && !isTokenExpired(token));
+    public static Boolean validateToken(String token, String userid) {
+        String userID = getUserIdFromToken(token);
+        return (userID.equals(userid) && !isTokenExpired(token));
     }
 
     /**

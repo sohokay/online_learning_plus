@@ -16,14 +16,14 @@ import java.time.LocalDateTime;
  */
 public class JwtAuthenticationProvider extends DaoAuthenticationProvider {
 
-    public JwtAuthenticationProvider(UserDetailsService userDetailsService) {
-        setUserDetailsService(userDetailsService);
-    }
+	public JwtAuthenticationProvider(UserDetailsService userDetailsService) {
+		setUserDetailsService(userDetailsService);
+	}
 
-    @Override
-    protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication)
-            throws AuthenticationException {
-        logger.info(userDetails.getUsername() + " 登录" + LocalDateTime.now());
-    }
+	@Override
+	protected void additionalAuthenticationChecks(UserDetails userDetails,
+			UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
+		logger.info(userDetails.getUsername() + " 登录" + LocalDateTime.now());
+	}
 
 }

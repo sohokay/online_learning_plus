@@ -1,5 +1,7 @@
 package top.musuixin.entity;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -12,7 +14,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author jobob
- * @since 2020-03-26
+ * @since 2020-03-31
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -24,11 +26,13 @@ public class Users implements Serializable {
     /**
      * 用户自增id
      */
+    @TableId(value = "user_id", type = IdType.AUTO)
     private Integer userId;
 
     /**
      * 用户名
      */
+
     private String userName;
 
     /**
@@ -40,15 +44,15 @@ public class Users implements Serializable {
      * 手机号
      */
     private String mobile;
-    /**
-     * 密码盐
-     */
-    private String salt;
 
     /**
-     * 用户身份“学生”、"管理员'、”教师“
+     * 用户身份“学生”、"管理员'、”教师“、'root'
      */
     private String userRole;
 
+    /**
+     * 用户上次登录的地理位置
+     */
+    private String loginAddress;
 
 }

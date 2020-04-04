@@ -13,35 +13,34 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author jobob
- * @since 2020-03-26
+ * @since 2020-03-31
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 public class UserThirdAuth implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * 第三方认证id
-     */
-    @TableId(value = "auth_id", type = IdType.AUTO)
-    private Integer authId;
+	/**
+	 * 第三方认证id
+	 */
+	@TableId(value = "auth_id", type = IdType.AUTO)
+	private Integer authId;
 
-    /**
-     * 用户id
-     */
-    private Integer userId;
+	/**
+	 * 用户id
+	 */
+	private Integer userId;
 
-    /**
-     * 第三方认证id
-     */
-    private Integer thirdId;
+	/**
+	 * 第三方认证id
+	 */
+	private Integer thirdId;
 
-    /**
-     * 第三方认证类型
-     */
-    private String thirdType;
-
+	/**
+	 * 第三方认证类型
+	 */
+	private String thirdType;
 
 }

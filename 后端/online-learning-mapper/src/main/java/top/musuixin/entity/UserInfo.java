@@ -15,40 +15,39 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author jobob
- * @since 2020-03-26
+ * @since 2020-03-31
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 public class UserInfo implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * 用户id
-     */
-    @TableId(value = "user_id", type = IdType.AUTO)
-    private Integer userId;
+	/**
+	 * 用户id
+	 */
+	@TableId(value = "user_id")
+	private Integer userId;
 
-    /**
-     * 用户的创建时间
-     */
-    private LocalDateTime creatTime;
+	/**
+	 * 用户的创建时间
+	 */
+	private LocalDateTime creatTime;
 
-    /**
-     * 用户生日
-     */
-    private LocalDate birthday;
+	/**
+	 * 用户生日
+	 */
+	private LocalDate birthday;
 
-    /**
-     * 性别
-     */
-    private String sex;
+	/**
+	 * 性别
+	 */
+	private String sex;
 
-    /**
-     * 用户头像
-     */
-    private String portrait;
-
+	/**
+	 * 用户头像
+	 */
+	private String portrait;
 
 }

@@ -1,4 +1,4 @@
-package top.musuixin.LoginRegister.Bean;
+package top.musuixin.loginregister.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +12,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * @date 2020-03-27 21:36
  */
 @Configuration
-public class RedisBean {
+public class RedisConfig {
 
     @Bean(name = "myRedis")
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {

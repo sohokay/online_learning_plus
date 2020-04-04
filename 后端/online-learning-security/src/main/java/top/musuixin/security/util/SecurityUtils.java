@@ -18,13 +18,13 @@ public class SecurityUtils {
     /**
      * 系统登录认
      * @param request
-     * @param username
+     * @param userId
      * @param password
      * @param authenticationManager
      * @return
      */
-    public static JwtAuthenticatioToken login(HttpServletRequest request, String username, String password, AuthenticationManager authenticationManager) {
-        JwtAuthenticatioToken token = new JwtAuthenticatioToken(username, password);
+    public static JwtAuthenticatioToken login(HttpServletRequest request, String userId, String password, AuthenticationManager authenticationManager) {
+        JwtAuthenticatioToken token = new JwtAuthenticatioToken(userId, password);
         token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         // 执行登录认证过程
         Authentication authentication = authenticationManager.authenticate(token);
@@ -52,16 +52,16 @@ public class SecurityUtils {
      *
      * @return
      */
-    public static String getUsername() {
-        String username = null;
+    public static String getUserId() {
+        String userId = null;
         Authentication authentication = getAuthentication();
         if (authentication != null) {
             Object principal = authentication.getPrincipal();
             if (principal != null && principal instanceof UserDetails) {
-                username = ((UserDetails) principal).getUsername();
+                userId = ((UserDetails) principal).getUsername();
             }
         }
-        return username;
+        return userId;
     }
 
     /**
@@ -69,15 +69,15 @@ public class SecurityUtils {
      *
      * @return
      */
-    public static String getUsername(Authentication authentication) {
-        String username = null;
+    public static String getUserId(Authentication authentication) {
+        String userUserId = null;
         if (authentication != null) {
             Object principal = authentication.getPrincipal();
             if (principal != null && principal instanceof UserDetails) {
-                username = ((UserDetails) principal).getUsername();
+                userUserId = ((UserDetails) principal).getUsername();
             }
         }
-        return username;
+        return userUserId;
     }
 
     /**
