@@ -3,10 +3,9 @@
         <img src="../../static/OnlineLearning.png" style="height: 110px;width: 120px;margin-bottom: 8%">
         <van-form @submit="onSubmitLogin" validate-first class="lform">
             <van-field
-                    v-model="form.username"
+                    v-model="form.mobile"
                     name="pattern"
                     label="手机号"
-                    placeholder="手机号"
                     :rules="[{validator:phonePattern, message: '请输入正确手机号 '}]"
             />
             <van-field
@@ -14,8 +13,7 @@
                     type="password"
                     name="密码"
                     label="密码"
-                    placeholder="密码"
-                    :rules="[{ required: true, message: '请填写密码' }]"
+                    :rules="[{ validator:rePasswordPattern, message: '密码为英文，数字下划线组合，6-14位' }]"
             />
             <div>
                 <van-button round block type="primary" native-type="submit">
@@ -30,12 +28,15 @@
     </div>
 </template>
 <script>
+    import {setToken, getToken} from '@/utils/auth'
+    import request from '@/utils/request'
+
     export default {
         name: 'Login',
         data() {
             return {
                 form: {
-                    userPhone: '',
+                    mobile: '',
                     password: ''
                 }
             }
@@ -45,14 +46,22 @@
 
         },
         methods: {
+            rePasswordPattern(val) {
+                return /^\w{6,14}$/.test(val)
+            },
             phonePattern(val) {
                 return /^1(3|4|5|7|8)\d{9}$/.test(val);
             },
             onSubmitLogin() {
-                this.$router.push("/")
+                request.post('http://localhost:8000/v1/login', this.form).then(res => {
+                    setToken(res.data.token)
+                    this.$router.push("/")
+                })
+
+
             },
             gitHub() {
-                alert("GitHub登录")
+                location.href = "https://github.com/login/oauth/authorize?client_id=e5885dde9fe33c6e3488";
             }, toRegister() {
                 this.$router.push("/register")
             }

@@ -1,16 +1,15 @@
 import router from './index'
 import store from '../store'
-// import {getToken} from '@/utils/auth' // get token from cookie
-// import getPageTitle from '@/utils/get-page-title'
+import {getToken} from '@/utils/auth' // get token from cookie
 
-const whiteList = ['/login','/register'] // no redirect whitelist
+const whiteList = ['/login','/register','/githublogin'] // no redirect whitelist
 
 router.beforeEach(async (to, from, next) => {
     // set page title
     // document.title = getPageTitle(to.meta.title)
     // determine whether the user has logged in
     // const hasToken = getToken()
-    const hasToken = false;
+    const hasToken =  getToken();
     if (hasToken) {
         if (to.path === '/login') {
             // if is logged in, redirect to the home page
@@ -41,9 +40,4 @@ router.beforeEach(async (to, from, next) => {
             next(`/login`)
         }
     }
-})
-//
-// router.afterEach(() => {
-//     // finish progress bar
-//     NProgress.done()
-// })
+});

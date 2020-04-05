@@ -1,7 +1,8 @@
 <template>
     <div class="box">
         <header>
-            <span class="iconfont icon-icon-" style="position: fixed;left: 6px;font-size: 20px;top: 8px" @click="Submission"/>
+            <span class="iconfont icon-icon-" style="position: fixed;left: 6px;font-size: 20px;top: 8px"
+                  @click="Submission"/>
             <div class="title">
                 我的资料
             </div>
@@ -13,7 +14,7 @@
                 </div>
                 <div class="value">
                     <input type="file" accept="image/*" id="file_head" class="file-head" @change="tirggerFile($event)">
-                    <img src="https://mall.s.maizuo.com/e915e2c990c30f8efa9e30bc75da41ee.jpg" width="50px" height="50px"
+                    <img :src="this.form.portrait" width="50px" height="50px"
                          class="head-icon">
                 </div>
                 <span class="iconfont icon-qianjin"/>
@@ -25,25 +26,24 @@
                 </div>
                 <div class="value">
                     <van-field v-model="form.phone" placeholder="请输入昵称"/>
-
                 </div>
                 <span class="iconfont icon-qianjin"/>
             </div>
             <van-divider/>
-            <div class="common">
+            <div class="sex-common">
                 <div>
                     性别
                 </div>
-                <div class="value">
-                    <van-field name="form.sex">
+                <div class="sex-value">
+                    <van-field name="form.sex" style="width: 200px">
                         <template #input>
                             <van-radio-group v-model="form.sex" direction="horizontal">
-                                <van-radio name="1">男</van-radio>
-                                <van-radio name="2">女</van-radio>
+                                <van-radio name="男">男</van-radio>
+                                <van-radio name="女">女</van-radio>
+                                <van-radio name="保密">保密</van-radio>
                             </van-radio-group>
                         </template>
                     </van-field>
-
                 </div>
                 <span class="iconfont icon-qianjin"/>
             </div>
@@ -53,7 +53,7 @@
                     出生日期
                 </div>
                 <div class="value" @click="showCalendar=true">
-                {{form.birthday}}
+                    {{form.birthday}}
                 </div>
                 <span class="iconfont icon-qianjin"/>
             </div>
@@ -70,7 +70,8 @@
 
 <script>
     import Index from "@/views/study/Index";
-    import request from '@/untils/request.js'
+    import request from '@/utils/request.js'
+
     export default {
         name: "user",
         components: {Index},
@@ -80,10 +81,10 @@
                 maxDate: new Date(2030, 0, 1),
                 currentDate: new Date(1970, 0, 1),
                 form: {
-                    portrait: '',
+                    portrait: 'http://img.musuixin.top/%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F.jpg',
                     phone: 121212121212,
-                    sex: '1',
-                    birthday:'2097-10-31'
+                    sex: '女',
+                    birthday: '2000-10-31'
                 },
                 showCalendar: false,
                 uploader: [{url: 'https://img.yzcdn.cn/vant/leaf.jpg'}]
@@ -102,14 +103,14 @@
                 return val;
             },
             onConfirm(date) {
-                this.form.birthday= `${date.getFullYear() }-${date.getMonth() + 1}-${date.getDate()}`;
+                this.form.birthday = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
                 this.showCalendar = false;
             },
             tirggerFile(event) {
                 console.log(event.target.files)
             },
-            Submission(){
-                request.get("/12",{params:this.form})
+            Submission() {
+                request.get("/12", {params: this.form})
                 this.$router.go(-1)
             }
         }
@@ -188,6 +189,15 @@
             align-items: center;
         }
 
+        .sex-common {
+            height: 40px;
+            line-height: 40px;
+            padding-right: 14px;
+            margin-left: 15px;
+            display: flex;
+            align-items: center;
+        }
+
         .value {
             font-size: 13px;
             color: #797d82;
@@ -195,6 +205,14 @@
             text-align: right;
             margin-right: 14px;
             margin-left: 170px;
+        }
+
+        .sex-value {
+            font-size: 13px;
+            color: #797d82;
+            flex: 1;
+            text-align: right;
+            margin-left: 120px;
         }
     }
 

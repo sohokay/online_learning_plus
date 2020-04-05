@@ -3,26 +3,25 @@
         <img src="../../static/OnlineLearning.png" style="height: 110px;width: 120px;margin-bottom: 8%">
         <van-form @submit="onSubmitRegister" class="lform">
             <van-field
-                    v-model="form.studentname"
+                    v-model="form.userName"
                     name="用户名"
                     label="用户名"
-                    placeholder="用户名"
-                    :rules="[{ required: true, message: '请填写用户名' }]"
+                    :rules="[{validator:usernamePattern, message: '仅可包含汉字、数字、字母、_ 长度少于十位' }]"
             />
             <van-field
-                    v-model="form.studentphone"
+                    v-model="form.mobile"
                     name="手机号"
                     label="手机号"
-                    placeholder="手机号"
-                    :rules="[{ required: true, message: '请填写手机号' }]"
+                    :rules="[{validator:phonePattern, message: '请输入正确手机号 '}]"
             >
-                <van-button :disabled="isAble" slot="button" size="small" type="primary" @click="sendCode">发送验证码{{time}}</van-button>
+                <van-button :disabled="isAble" native-type="button" slot="button" size="small" type="primary" @click="sendCode">
+                    发送验证码{{time}}
+                </van-button>
             </van-field>
             <van-field
-                    v-model="form.studentphone"
+                    v-model="form.verification"
                     name="验证码"
                     label="验证码"
-                    placeholder="验证码"
                     :rules="[{ required: true, message: '请填写验证码' }]"
             >
             </van-field>
@@ -31,16 +30,14 @@
                     type="password"
                     name="密码"
                     label="密码"
-                    placeholder="密码"
-                    :rules="[{ required: true, message: '请填写密码' }]"
+                    :rules="[{ validator:passwordPattern, message: '密码为英文，数字下划线组合，6-14位' }]"
             />
             <van-field
-                    v-model="form.repassword"
+                    v-model="form.rePassword"
                     type="password"
                     name="重复密码"
                     label="重复密码"
-                    placeholder="重复密码"
-                    :rules="[{ required: true, message: '请填写密码' }]"
+                    :rules="[{ validator:rePasswordPattern, message: '两次输入的密码不一致' }]"
             />
             <div>
                 <van-button round block type="info" native-type="submit">
@@ -53,62 +50,116 @@
 </template>
 <script>
     import Vue from 'vue';
-    import { Notify } from 'vant';
+    import {Notify} from 'vant';
+    import request from '@/utils/request'
 
     Vue.use(Notify);
     export default {
         name: 'Register',
         data() {
             return {
-                time:'',
-                isAble:false,
+                time: '',
+                isAble: false,
                 form: {
-                    studentname: '',
-                    studentphone: '',
-                    Verification: '',
+                    userName: '',
+                    mobile: '',
+                    verification: '',
                     password: '',
-                    repassword: ''
-                }
+                    rePassword: ''
+                },
+                isAllow: true
             }
-
         },
         created() {
-            console.log(new Date().valueOf()-localStorage.getItem("codeTime"))
-            var jgtime=parseInt((new Date().valueOf()-localStorage.getItem("codeTime"))/1000)
-            console.log(jgtime)
-            if(jgtime<60){
-                this.time=60-jgtime;
-                this.isAble=true
-                let interval = setInterval(()=>{
+            /**
+             * 获取手机验证码是否在60s内重复
+             */
+            console.log(new Date().valueOf() - localStorage.getItem("codeTime"));
+            var jgtime = parseInt((new Date().valueOf() - localStorage.getItem("codeTime")) / 1000);
+            console.log(jgtime);
+            if (jgtime < 60) {
+                this.time = 60 - jgtime;
+                this.isAble = true
+                let interval = setInterval(() => {
                     this.time--
-                    if(this.time===0){
+                    if (this.time === 0) {
                         clearInterval(interval)
-                        this.isAble=false
-                        this.time=''
+                        this.isAble = false
+                        this.time = ''
                     }
-                },1000);
+                }, 1000);
             }
         },
         methods: {
-            onSubmitRegister() {
-                alert("hello")
-            }, toLogin() {
-                this.$router.push("/login")
-            }, sendCode() {
-                this.time=60
-                this.isAble=true
-                localStorage.setItem("codeTime",new Date().valueOf())
-                let interval = setInterval(()=>{
-                    this.time--
-                    if(this.time===0){
-                        clearInterval(interval)
-                        this.isAble=false
-                        this.time=''
-                    }
-                },1000);
-                Notify({ type: 'success', message: '通知内容' });
-            }
+            /**
+             * 手机号验证
+             * @param val
+             * @returns {boolean}
+             */
+            phonePattern(val) {
+                return /^1(3|4|5|7|8)\d{9}$/.test(val);
+            },
+            /**
+             * 用户名验证
+             * @param val
+             * @returns {boolean}
+             */
+            usernamePattern(val) {
+                return /^[\u4e00-\u9fa5_a-zA-Z0-9]{1,10}$/.test(val)
+            },
 
+            passwordPattern(val) {
+                return /^\w{6,14}$/.test(val)
+            },
+            /**
+             * 重复密码是否一致验证
+             * @param val
+             * @returns {boolean}
+             */
+            rePasswordPattern(val) {
+                return val === this.form.password
+
+            },
+            /**
+             * 注册逻辑
+             */
+            onSubmitRegister() {
+                request.post("http://localhost:8000/v1/register", this.form).then(res => {
+                    Notify({type: 'success', message: '注册成功，跳转登录'});
+                    this.$router.push('/login')
+                })
+            },
+            /**
+             * 跳转登录页面
+             */
+            toLogin() {
+                this.$router.push("/login")
+            },
+            sendCode() {
+                if (this.phonePattern(this.form.mobile)) {
+                    request.get("http://localhost:8000/v1/verification", {
+                        params: {
+                            mobile: this.form.mobile
+                        }
+                    }).then(res => {
+                        this.time = 60
+                        this.isAble = true
+                        localStorage.setItem("codeTime", new Date().valueOf())
+                        let interval = setInterval(() => {
+                            this.time--
+                            if (this.time === 0) {
+                                clearInterval(interval)
+                                this.isAble = false
+                                this.time = ''
+                            }
+                        }, 1000);
+                        this.isAllow = false
+                    });
+                } else {
+                    Notify({type: 'warning', message: '请输入正确的手机号'});
+                }
+
+            }
         }
     }
 </script>

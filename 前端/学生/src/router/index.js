@@ -13,10 +13,10 @@ const routes = [
         component: () => import('../views/homePage/Index.vue'),
         children: [
             {
-            path: 'course',
-            name: 'Course',
-            component: () => import('../views/homePage/course/Course.vue'),
-        },
+                path: 'course',
+                name: 'Course',
+                component: () => import('../views/homePage/course/Course.vue'),
+            },
             {
                 path: 'myCourse',
                 name: 'MyCourse',
@@ -46,29 +46,33 @@ const routes = [
         path: '/register',
         name: 'Register',
         component: () => import('../views/loginRegistration/Register.vue')
+    }, {
+
+        path: '/githublogin',
+        name: 'GitHubLogin',
+        component: () => import('../views/loginRegistration/GitHubLogin')
     },
     //详情页面
     {
         path: '/courseDetail/:courseId',
         name: 'CourseDetail',
         component: () => import('../views/courseDetails/Index'),
-        props:true
+        props: true
     },
     //学习页面
     {
-        path:'/study/:courseId',
-        name:'Study',
-        component:()=>import('@/views/study/Index'),
-        props:true
+        path: '/study/:courseId',
+        name: 'Study',
+        component: () => import('@/views/study/Index'),
+        props: true
     },
     //用户资料
     {
-      path:'/user',
-        name:'User',
-        component:()=>import('@/views/myAccount/User'),
+        path: '/user',
+        name: 'User',
+        component: () => import('@/views/myAccount/User'),
 
     },
-
     /**
      *
      * 详细的学习、讨论页面
@@ -76,21 +80,20 @@ const routes = [
      */
     //详细的学习页面路由
     {
-        path:'/noticeDetails/:noticeId',
-        name:'NoticeDetails',
-        component:()=>import('@/views/studyDetails/NoticeDetails'),
-        props:true
+        path: '/noticeDetails/:noticeId',
+        name: 'NoticeDetails',
+        component: () => import('@/views/studyDetails/NoticeDetails'),
+        props: true
 
     },
     //详细的讨论页面
     {
-        path:'/discussDetails/:discussId',
-        name:'DiscussDetails',
-        component:()=>import('@/views/studyDetails/DiscussDetails'),
-        props:true
+        path: '/discussDetails/:discussId',
+        name: 'DiscussDetails',
+        component: () => import('@/views/studyDetails/DiscussDetails'),
+        props: true
 
     }
-
 ]
 
 const router = new VueRouter({
