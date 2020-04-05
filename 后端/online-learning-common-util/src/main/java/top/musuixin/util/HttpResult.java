@@ -76,14 +76,14 @@ public class HttpResult {
         return httpResult;
     }
     /**
-     * 资源冲突 响应
+     *  第三方账户没有绑定 专有错误
      * @param data
      * @return
      */
     public static HttpResult HTTP_CONFLICT(Object data) {
         HttpResult httpResult = new HttpResult();
         httpResult.setCode(HttpStatus.HTTP_CONFLICT);
-        httpResult.setMsg("资源冲突");
+        httpResult.setMsg("第三方账户出错");
         httpResult.setData(data);
         return httpResult;
     }

@@ -12,4 +12,5 @@ public class GitHubLoginBean {
     private String mobile;
     private String password;
     private String code;
+    private Integer githubId;
 }

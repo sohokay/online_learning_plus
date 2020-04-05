@@ -26,8 +26,11 @@ public class HttpStatus {
      * 无法找到
      */
     public static final int HTTP_NOT_FOUND = 404;
+
+
+
     /**
-     * 资源冲突
+     * 资源错误
      */
     public static final int HTTP_CONFLICT = 409;
     /**

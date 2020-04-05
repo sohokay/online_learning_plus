@@ -62,7 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // 首页和登录页面
 //                .antMatchers("/**").permitAll();
-                .antMatchers("/**").permitAll()
+                .antMatchers("/**").permitAll();
 //                .antMatchers("/github/**").permitAll()
 //                // swagger
 //                .antMatchers("/doc.html").permitAll()
@@ -73,7 +73,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //                // 验证码
 //                .antMatchers("/captcha.jpg**").permitAll()
                 // 其他所有请求需要身份认证
-                .anyRequest().authenticated();
+//                .anyRequest().authenticated();
         // 退出登录处理器
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
         // token验证过滤器

@@ -2,6 +2,7 @@ package top.musuixin.loginregister.service.impl;
 
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.ReUtil;
+import cn.hutool.http.HttpRequest;
 import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.slf4j.Logger;
@@ -12,13 +13,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import top.musuixin.entity.UserInfo;
+import top.musuixin.entity.UserThirdAuth;
 import top.musuixin.entity.Users;
-import top.musuixin.loginregister.Bean.LoginBean;
-import top.musuixin.loginregister.Bean.RegisterBean;
-import top.musuixin.loginregister.Bean.SendStatusSet;
+import top.musuixin.loginregister.Bean.*;
 import top.musuixin.loginregister.OnlineLearningLoginRegisterWeb;
 import top.musuixin.loginregister.service.LoginRegisterService;
 import top.musuixin.mapper.UserInfoMapper;
+import top.musuixin.mapper.UserThirdAuthMapper;
 import top.musuixin.mapper.UsersMapper;
 import top.musuixin.redis.service.RedisService;
 import top.musuixin.security.JwtAuthenticatioToken;
@@ -46,35 +47,96 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
     @Autowired
     private UserInfoMapper userInfoMapper;
     @Autowired
+    private UserThirdAuthMapper userThirdAuthMapper;
+    @Autowired
     AuthenticationManager authenticationManager;
-
-
     protected static final Logger logger = LoggerFactory.getLogger(OnlineLearningLoginRegisterWeb.class);
     final String verification = "Verification";
     final String ok = "Ok";
     final String regexMobile = "^1(3|4|5|7|8)\\d{9}$";
     final String identity = "identity";
 
+    @Override
+    @Transactional
+    public HttpResult gitHubLogin(GitHubLoginBean gitHubLoginBean, HttpServletRequest request) {
+        System.err.println(gitHubLoginBean);
+        if (gitHubLoginBean.getMobile() != null && gitHubLoginBean.getPassword() != null) {
+            //说明用户是要进行绑定第三方账户操作
+            QueryWrapper<Users> queryUser = new QueryWrapper<>();
+            Users users = usersMapper.selectOne(queryUser.eq("mobile", gitHubLoginBean.getMobile()));
+            if (users == null) {
+                return HttpResult.HTTP_BAD_REQUEST("用户名或密码错误");
+            }
+            if (passwordEncoder.matches(gitHubLoginBean.getPassword(), users.getPassword())) {
+                //用户信息认证通过 可以绑定第三方账户并登录
+                UserThirdAuth userThirdAuth = new UserThirdAuth();
+                userThirdAuth.setThirdId(gitHubLoginBean.getGithubId());
+                userThirdAuth.setThirdType("GitHub");
+                userThirdAuth.setUserId(users.getUserId());
+                userThirdAuthMapper.insert(userThirdAuth);
+                JwtAuthenticatioToken login = SecurityUtils.login(request, String.valueOf(users.getUserId()), users.getPassword(), authenticationManager);
+                HashMap<String, String> hashMap = new HashMap<>();
+                hashMap.put("token", login.getToken());
+                return HttpResult.HTTP_OK(hashMap);
+            }
+        }
+        System.err.println(gitHubLoginBean);
+        String codeBody = HttpRequest.post("https://github.com/login/oauth/access_token")
+                .form("client_id", "e5885dde9fe33c6e3488")
+                .form("client_secret", "df903a4e2b64fffa72b5e81727ff6e9f65f931a8")
+                .form("code", gitHubLoginBean.getCode()).header("Accept", "application/json").execute().body();
+        String accessToken = JSONUtil.parseObj(codeBody).get("access_token", String.class);
+        String tokenBody;
+        System.err.println(accessToken);
+        try {
+            tokenBody = HttpRequest.get("https://api.github.com/user")
+                    .header("Authorization", "token " + accessToken)
+                    .header("User-Agent","随心在线学习系统")
+                    .setReadTimeout(1000 * 10).setConnectionTimeout(1000 * 5).execute().body();
+        } catch (Exception e) {
+            logger.error(e.toString());
+            return HttpResult.HTTP_NOT_FOUND("由于大陆网络原因，GiHub超时,请重试或换其他登陆方式");
+        }
+        GitHubBean gitHubBean = JSONUtil.parseObj(tokenBody).toBean(GitHubBean.class);
+        System.err.println(gitHubBean.getMessage());
+        //获取第三方的信息
+        if (gitHubBean.getMessage() != null) {
+            //如果是code错误
+            return HttpResult.HTTP_FORBIDDEN("GitHub第三方认证错误");
+        }
+        QueryWrapper<UserThirdAuth> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("third_id", gitHubBean.getId());
+        UserThirdAuth userThirdAuth = userThirdAuthMapper.selectOne(queryWrapper);
+        if (userThirdAuth == null) {
+            //在库中没有此第三方认证信息
+            HashMap<String, Object> stringObjectHashMap = new HashMap<>();
+            stringObjectHashMap.put("content", "请先绑定此第三方账户");
+            stringObjectHashMap.put("GitHubId", gitHubBean.getId());
+            return HttpResult.HTTP_CONFLICT(stringObjectHashMap);
+        }
+        Users user = usersMapper.selectById(userThirdAuth.getUserId());
+        JwtAuthenticatioToken login = SecurityUtils.login(request, String.valueOf(user.getUserId()), user.getPassword(), authenticationManager);
+        return HttpResult.HTTP_OK(login.getToken());
+    }
 
     @Override
     public HttpResult login(LoginBean loginBean, HttpServletRequest request) {
         QueryWrapper<Users> queryWrapper = new QueryWrapper<>();
         Users user = usersMapper.selectOne(queryWrapper.eq("mobile", loginBean.getMobile()));
         if (user == null) {
-            return HttpResult.HTTP_BAD_REQUEST("用户不存在");
+            return HttpResult.HTTP_BAD_REQUEST("手机号或密码错误");
         }
 //        if (!user.getLoginAddress().equals(AddressByIp.getAddress(request.getRemoteAddr()))) {
-//            return HttpResult.HTTP_CONFLICT("登录不安全");
-//        }
+////            return HttpResult.HTTP_CONFLICT("登录不安全");
+////        }
         // 上线后开启
-        if (passwordEncoder.matches(loginBean.getPassword(),user.getPassword())) {
+        if (passwordEncoder.matches(loginBean.getPassword(), user.getPassword())) {
             JwtAuthenticatioToken login = SecurityUtils.login(request, String.valueOf(user.getUserId()), user.getPassword(), authenticationManager);
             HashMap<String, String> hashMap = new HashMap<>();
             hashMap.put("token", login.getToken());
             return HttpResult.HTTP_OK(hashMap);
         }
-
-        return null;
+        return HttpResult.HTTP_BAD_REQUEST("手机号或密码错误");
     }
 
     /**

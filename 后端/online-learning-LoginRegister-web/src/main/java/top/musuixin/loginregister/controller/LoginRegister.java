@@ -2,6 +2,7 @@ package top.musuixin.loginregister.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import top.musuixin.loginregister.Bean.GitHubLoginBean;
 import top.musuixin.loginregister.Bean.LoginBean;
 import top.musuixin.loginregister.Bean.RegisterBean;
 import top.musuixin.loginregister.service.LoginRegisterService;
@@ -21,12 +22,9 @@ public class LoginRegister {
     private LoginRegisterService loginRegisterService;
 
 
-    @GetMapping("/githublogin")
-    public HttpResult test(String code) {
-//        System.err.println(JwtTokenUtils.getToken(request));
-
-        System.err.println(code);
-        return null;
+    @PostMapping("/githublogin")
+    public HttpResult test(@RequestBody GitHubLoginBean gitHubLoginBean,HttpServletRequest request) {
+        return loginRegisterService.gitHubLogin(gitHubLoginBean,request);
 
     }
 
