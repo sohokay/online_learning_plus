@@ -23,7 +23,7 @@ public class JwtTokenUtils implements Serializable {
     /**
      * 用户名称
      */
-    private static final String USERID= Claims.SUBJECT;
+    private static final String USERID = Claims.SUBJECT;
     /**
      * 创建时间
      */
@@ -72,14 +72,14 @@ public class JwtTokenUtils implements Serializable {
      * @return 用户名
      */
     public static String getUserIdFromToken(String token) {
-        String UserId;
+        String userId;
         try {
             Claims claims = getClaimsFromToken(token);
-            UserId = claims.getSubject();
+            userId = claims.getSubject();
         } catch (Exception e) {
-            UserId = null;
+            userId = null;
         }
-        return UserId;
+        return userId;
     }
 
     /**
@@ -108,9 +108,8 @@ public class JwtTokenUtils implements Serializable {
                     return null;
                 }
                 Object authors = claims.get(ROLE);
-                System.err.println("role:"+authors);
                 List<GrantedAuthority> authorities = new ArrayList<>();
-                if (authors != null && authors instanceof List) {
+                if (authors instanceof List) {
                     for (Object object : (List) authors) {
                         authorities.add(new GrantedAuthorityImpl((String) ((Map) object).get("authority")));
                     }
@@ -146,14 +145,13 @@ public class JwtTokenUtils implements Serializable {
      * 验证令牌
      *
      * @param token
-     * @param userid
+     * @param userId
      * @return
      */
-    public static Boolean validateToken(String token, String userid) {
+    public static Boolean validateToken(String token, String userId) {
         String userID = getUserIdFromToken(token);
-        return (userID.equals(userid) && !isTokenExpired(token));
+        return (userId.equals(userID) && !isTokenExpired(token));
     }
-
     /**
      * 刷新令牌
      *
@@ -171,6 +169,7 @@ public class JwtTokenUtils implements Serializable {
         }
         return refreshedToken;
     }
+
     /**
      * 判断令牌是否过期
      *
@@ -194,13 +193,7 @@ public class JwtTokenUtils implements Serializable {
      * @return
      */
     public static String getToken(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
-        String tokenHead = "Bearer ";
-        if (token == null) {
-            token = request.getHeader("token");
-        } else if (token.contains(tokenHead)) {
-            token = token.substring(tokenHead.length());
-        }
+        String token = request.getHeader("token");
         if ("".equals(token)) {
             token = null;
         }

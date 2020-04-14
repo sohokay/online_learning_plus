@@ -2,11 +2,15 @@ package top.musuixin.security.util;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import top.musuixin.security.JwtAuthenticatioToken;
+
 import javax.servlet.http.HttpServletRequest;
+import java.util.Collection;
+
 /**
  * Security相关操作
  *
@@ -17,6 +21,7 @@ public class SecurityUtils {
 
     /**
      * 系统登录认
+     *
      * @param request
      * @param userId
      * @param password
@@ -57,12 +62,15 @@ public class SecurityUtils {
         Authentication authentication = getAuthentication();
         if (authentication != null) {
             Object principal = authentication.getPrincipal();
-            if (principal != null && principal instanceof UserDetails) {
+            if (principal instanceof UserDetails) {
                 userId = ((UserDetails) principal).getUsername();
+                return userId;
             }
+            userId = (String) principal;
         }
         return userId;
     }
+
 
     /**
      * 获取用户名
@@ -73,7 +81,7 @@ public class SecurityUtils {
         String userUserId = null;
         if (authentication != null) {
             Object principal = authentication.getPrincipal();
-            if (principal != null && principal instanceof UserDetails) {
+            if (principal instanceof UserDetails) {
                 userUserId = ((UserDetails) principal).getUsername();
             }
         }

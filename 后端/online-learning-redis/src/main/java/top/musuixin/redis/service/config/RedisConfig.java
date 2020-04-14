@@ -1,4 +1,4 @@
-package top.musuixin.loginregister.config;
+package top.musuixin.redis.service.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

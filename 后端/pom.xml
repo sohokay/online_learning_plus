@@ -47,6 +47,8 @@
         <module>online-learning-service</module>
         <module>online-learning-LoginRegister-web</module>
         <module>online-learning-common-util</module>
+        <module>online-learning-teacher-web</module>
+        <module>online-learning-admin-web</module>
     </modules>
     <!--    依赖管理-->
     <dependencyManagement>

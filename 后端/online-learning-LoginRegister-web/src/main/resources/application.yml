@@ -28,6 +28,9 @@ spring:
     port: 6379
     password: 950405
     timeout: 10000
+  servlet:
+    multipart:
+      max-file-size: 20MB
 server:
   # 服务端口
   port: 8000

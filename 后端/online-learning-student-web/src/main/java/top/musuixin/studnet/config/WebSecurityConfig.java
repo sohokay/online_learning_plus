@@ -7,11 +7,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 import top.musuixin.security.JwtAuthenticationFilter;
@@ -25,7 +26,6 @@ import top.musuixin.security.JwtAuthenticationFilter;
  */
 @Configuration
 @EnableWebSecurity    // 开启Spring Security
-@EnableGlobalMethodSecurity(prePostEnabled = true)    // 开启权限注解，如：@PreAuthorize注解
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
@@ -47,17 +47,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 跨域预检请求
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 // 首页和登录页面
-                .antMatchers("/").permitAll()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/github/**").permitAll()
-                // swagger
-                .antMatchers("/doc.html").permitAll()
-                .antMatchers("/v2/api-docs").permitAll()
-                .antMatchers("/v2/api-docs-ext").permitAll()
-                .antMatchers("/swagger-resources/**").permitAll()
-                .antMatchers("/webjars/**").permitAll()
-                // 其他所有请求需要身份认证
-                .anyRequest().authenticated();
+                .antMatchers("/v1/**").hasRole("student")
+//                .hasRole("student")
+//                .antMatchers(
+//                        "/doc.html",
+//                        "/api-docs-ext	",
+//                        "/swagger-resources	",
+//                        "/api-docs",
+//                        "/swagger-ui.html",
+//                        "/swagger-resources/configuration/ui",
+//                        "/swagger-resources/configuration/security",
+//                        "/webjars/**",
+//                        "/service-worker.js",
+//                        "/swagger-resources"
+//                        ).permitAll()
+                .anyRequest().permitAll();
         // 退出登录处理器
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
         // token验证过滤器
@@ -71,4 +75,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 }

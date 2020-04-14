@@ -36,8 +36,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
     /**
-     *
      * 此处执行认证流程
+     *
      * @param auth
      * @throws Exception
      */
@@ -47,9 +47,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
+     * 此处对用户进行授权
+     * 所有url都要经过此处
      *
-     *   此处对用户进行授权
-     *   所有url都要经过此处
      * @param http
      * @throws Exception
      */
@@ -60,24 +60,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // 跨域预检请求
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                // 首页和登录页面
-//                .antMatchers("/**").permitAll();
-                .antMatchers("/**").permitAll();
-//                .antMatchers("/github/**").permitAll()
-//                // swagger
-//                .antMatchers("/doc.html").permitAll()
-//                .antMatchers("/v2/api-docs").permitAll()
-//                .antMatchers("/v2/api-docs-ext").permitAll()
-//                .antMatchers("/swagger-resources/**").permitAll()
-//                .antMatchers("/webjars/**").permitAll()
-//                // 验证码
-//                .antMatchers("/captcha.jpg**").permitAll()
-                // 其他所有请求需要身份认证
-//                .anyRequest().authenticated();
+                .antMatchers("/v1/login","/v1/register","/v1/githublogin","/v1/verification").permitAll()
+                                .antMatchers(
+                        "/doc.html",
+                        "/api-docs-ext	",
+                        "/swagger-resources	",
+                        "/api-docs",
+                        "/swagger-ui.html",
+                        "/swagger-resources/configuration/ui",
+                        "/swagger-resources/configuration/security",
+                        "/webjars/**",
+                        "/service-worker.js",
+                        "/swagger-resources",
+                                        "/v2/api-docs"
+                        ).permitAll()
+
+                .anyRequest().authenticated();
         // 退出登录处理器
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
-        // token验证过滤器
         http.addFilterBefore(new JwtAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
+        //token验证过滤器此处关闭此过滤器
     }
 
     @Bean

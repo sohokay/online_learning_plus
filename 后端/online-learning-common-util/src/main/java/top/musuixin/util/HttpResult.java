@@ -17,6 +17,7 @@ public class HttpResult {
 
     /**
      * 请求成功 响应
+     *
      * @param data
      * @return
      */
@@ -27,8 +28,10 @@ public class HttpResult {
         httpResult.setData(data);
         return httpResult;
     }
+
     /**
      * 创建成功 响应
+     *
      * @param data
      * @return
      */
@@ -39,8 +42,10 @@ public class HttpResult {
         httpResult.setData(data);
         return httpResult;
     }
+
     /**
      * 错误的请求 响应
+     *
      * @param data
      * @return
      */
@@ -51,8 +56,10 @@ public class HttpResult {
         httpResult.setData(data);
         return httpResult;
     }
+
     /**
      * 被拒绝 响应
+     *
      * @param data
      * @return
      */
@@ -63,8 +70,10 @@ public class HttpResult {
         httpResult.setData(data);
         return httpResult;
     }
+
     /**
      * 无法找到 响应
+     *
      * @param data
      * @return
      */
@@ -75,8 +84,10 @@ public class HttpResult {
         httpResult.setData(data);
         return httpResult;
     }
+
     /**
-     *  第三方账户没有绑定 专有错误
+     * 第三方账户没有绑定 专有错误
+     *
      * @param data
      * @return
      */
@@ -87,8 +98,10 @@ public class HttpResult {
         httpResult.setData(data);
         return httpResult;
     }
+
     /**
      * 服务器内部错误 响应
+     *
      * @param data
      * @return
      */

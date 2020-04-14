@@ -2,6 +2,7 @@ package top.musuixin.security;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,11 +23,13 @@ import java.util.List;
 @Service("adminDetailsService")
 public class AdminDetailsServiceImpl implements UserDetailsService {
 
+	@Qualifier("usersServiceImpl")
 	@Autowired
 	IUsersService iUsersService;
 
 	@Override
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
+		System.err.println(userId+"load");
 		QueryWrapper<Users> queryWrapper = new QueryWrapper<>();
 		List<Users> users = iUsersService.list(queryWrapper.eq("user_id", userId));
 		if (users.isEmpty()) {
@@ -35,7 +38,8 @@ public class AdminDetailsServiceImpl implements UserDetailsService {
 		Users user = users.get(0);
 		List<SimpleGrantedAuthority> authorities = new ArrayList<>();
 		authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getUserRole()));
-		return new JwtUserDetails(user.getMobile(), user.getPassword(), authorities);
+		return new JwtUserDetails(String.valueOf(user.getUserId()) , user.getPassword(), authorities);
+		//注入JWT中的信息
 	}
 
 }

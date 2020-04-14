@@ -15,7 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 import top.musuixin.entity.UserInfo;
 import top.musuixin.entity.UserThirdAuth;
 import top.musuixin.entity.Users;
-import top.musuixin.loginregister.Bean.*;
+import top.musuixin.loginregister.Bean.GitHubBean;
+import top.musuixin.loginregister.Bean.GitHubLoginBean;
+import top.musuixin.loginregister.Bean.LoginBean;
+import top.musuixin.loginregister.Bean.RegisterBean;
 import top.musuixin.loginregister.OnlineLearningLoginRegisterWeb;
 import top.musuixin.loginregister.service.LoginRegisterService;
 import top.musuixin.mapper.UserInfoMapper;
@@ -37,6 +40,7 @@ import java.util.HashMap;
  * @date 2020-03-31 21:23
  */
 @Service
+
 public class LoginRegisterServiceImpl implements LoginRegisterService {
     @Autowired
     private RedisService redisService;
@@ -80,22 +84,21 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
                 return HttpResult.HTTP_OK(hashMap);
             }
         }
-        System.err.println(gitHubLoginBean);
-        String codeBody = HttpRequest.post("https://github.com/login/oauth/access_token")
-                .form("client_id", "e5885dde9fe33c6e3488")
-                .form("client_secret", "df903a4e2b64fffa72b5e81727ff6e9f65f931a8")
-                .form("code", gitHubLoginBean.getCode()).header("Accept", "application/json").execute().body();
-        String accessToken = JSONUtil.parseObj(codeBody).get("access_token", String.class);
         String tokenBody;
-        System.err.println(accessToken);
         try {
+            String codeBody = HttpRequest.post("https://github.com/login/oauth/access_token")
+                    .form("client_id", "e5885dde9fe33c6e3488")
+                    .form("client_secret", "df903a4e2b64fffa72b5e81727ff6e9f65f931a8")
+                    .form("code", gitHubLoginBean.getCode()).header("Accept", "application/json").execute().body();
+            String accessToken = JSONUtil.parseObj(codeBody).get("access_token", String.class);
+            System.err.println(accessToken);
             tokenBody = HttpRequest.get("https://api.github.com/user")
                     .header("Authorization", "token " + accessToken)
-                    .header("User-Agent","随心在线学习系统")
+                    .header("User-Agent", "随心在线学习系统")
                     .setReadTimeout(1000 * 10).setConnectionTimeout(1000 * 5).execute().body();
         } catch (Exception e) {
             logger.error(e.toString());
-            return HttpResult.HTTP_NOT_FOUND("由于大陆网络原因，GiHub超时,请重试或换其他登陆方式");
+            return HttpResult.HTTP_FORBIDDEN("由于大陆网络原因，GiHub超时,请重试或换其他登陆方式");
         }
         GitHubBean gitHubBean = JSONUtil.parseObj(tokenBody).toBean(GitHubBean.class);
         System.err.println(gitHubBean.getMessage());
@@ -122,9 +125,9 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
     @Override
     public HttpResult login(LoginBean loginBean, HttpServletRequest request) {
         QueryWrapper<Users> queryWrapper = new QueryWrapper<>();
-        Users user = usersMapper.selectOne(queryWrapper.eq("mobile", loginBean.getMobile()));
+        Users user = usersMapper.selectOne(queryWrapper.eq("mobile", loginBean.getMobile()).eq("user_role", request.getHeader("identity")));
         if (user == null) {
-            return HttpResult.HTTP_BAD_REQUEST("手机号或密码错误");
+            return HttpResult.HTTP_FORBIDDEN("手机号或密码错误");
         }
 //        if (!user.getLoginAddress().equals(AddressByIp.getAddress(request.getRemoteAddr()))) {
 ////            return HttpResult.HTTP_CONFLICT("登录不安全");
@@ -132,11 +135,13 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
         // 上线后开启
         if (passwordEncoder.matches(loginBean.getPassword(), user.getPassword())) {
             JwtAuthenticatioToken login = SecurityUtils.login(request, String.valueOf(user.getUserId()), user.getPassword(), authenticationManager);
-            HashMap<String, String> hashMap = new HashMap<>();
+            HashMap<String, Object> hashMap = new HashMap<>();
             hashMap.put("token", login.getToken());
+            UserInfo userInfo = userInfoMapper.selectById(user);
+            hashMap.put("user",userInfo.getPortrait());
             return HttpResult.HTTP_OK(hashMap);
         }
-        return HttpResult.HTTP_BAD_REQUEST("手机号或密码错误");
+        return HttpResult.HTTP_FORBIDDEN("手机号或密码错误");
     }
 
     /**
@@ -150,7 +155,6 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public HttpResult register(RegisterBean registerBean, HttpServletRequest request) {
-        System.err.println(registerBean);
         if (redisService.get(verification + registerBean.getMobile()) == null) {
             return HttpResult.HTTP_BAD_REQUEST("没有获取验证码");
         }
@@ -163,7 +167,8 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
         if (request.getHeader(identity) == null) {
             return HttpResult.HTTP_BAD_REQUEST("HEADER ERROR");
         }
-        if (usersMapper.isUsernameRepeat(registerBean.getUserName()) != 0) {
+        String role = request.getHeader(identity);
+        if (!"teacher".equals(role) && usersMapper.isUsernameRepeat(registerBean.getUserName()) != 0) {
             return HttpResult.HTTP_BAD_REQUEST("用户名重复");
         }
         registerBean.setPassword(passwordEncoder.encode(registerBean.getPassword()));
@@ -173,7 +178,7 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
         userInfo.setUserId(registerBean.getUserId());
         userInfo.setCreatTime(LocalDateTime.now());
         userInfo.setBirthday(LocalDate.of(2000, 1, 1));
-        userInfo.setSex("未知");
+        userInfo.setSex("保密");
         userInfo.setPortrait("http://img.musuixin.top/%E9%BB%98%E8%AE%A4%E5%A4%B4%E5%83%8F.jpg");
         userInfoMapper.insert(userInfo);
         return HttpResult.HTTP_OK("注册成功");
@@ -193,17 +198,16 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
             //手机号是否重复？？
             return HttpResult.HTTP_BAD_REQUEST("手机号已被注册");
         }
-        if (redisService.get(verification + mobile) != null) {
+        if (redisService.get(verification + mobile) != null && redisService.getExpire(verification + mobile) > 540L) {
             // 检测是否重复获取手机验证码
-            return HttpResult.HTTP_BAD_REQUEST("十分钟内重复获取");
+            return HttpResult.HTTP_BAD_REQUEST("一分钟内重复获取");
         }
         int random = RandomUtil.randomInt(100000, 999999);
         //获取随机数，作为验证码
-        String sendSms = SendSmsUtil.sendSms(mobile, random);
+        String sendSms = SendSmsUtil.sendSms(mobile, random, 564902);
         //发送验证码
-        String code = JSONUtil.parseObj(sendSms).getJSONArray("SendStatusSet").get(0, SendStatusSet.class).getCode();
         //获取手机发送成功的标识
-        if (ok.equals(code)) {
+        if (ok.equals(sendSms)) {
             redisService.set(verification + mobile, String.valueOf(random), 60 * 10);
             //存入redis
             logger.info(sendSms);

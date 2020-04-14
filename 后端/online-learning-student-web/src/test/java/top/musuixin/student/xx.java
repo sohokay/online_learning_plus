@@ -12,11 +12,9 @@ import top.musuixin.studnet.OnlineLearningStudentWeb;
  */
 @SpringBootTest(classes = {OnlineLearningStudentWeb.class})
 public class xx {
-    @Autowired
-    RedisService redisService;
 
     @Test
     public void xx() {
-//        redisService.delete("hello");
+
     }
 }

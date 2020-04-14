@@ -21,6 +21,16 @@ spring:
     port: 6379
     password: 950405
     timeout: 10000
+  datasource:
+    username: musuixin
+    password: CSRQ19971031yu
+    url: jdbc:mysql://rm-bp1783uv4c566u27tmo.mysql.rds.aliyuncs.com/online_learning?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=GMT%2B8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    tomcat:
+      default-transaction-isolation: 2
+  servlet:
+    multipart:
+      max-file-size: 20MB
 server:
   # 服务端口
   port: 8010
@@ -33,4 +43,14 @@ management:
 logging:
   level:
     top.musuixin: trace
+    com.alibaba.nacos.client: error
   file: F:\logger\online-learning-student-web.log
+knife4j:
+#  production: true
+  ## 开启Swagger的Basic认证功能,默认是false
+#  basic:
+#    enable: true
+#  ## Basic认证用户名
+#    username: root
+#  ## Basic认证密码
+#    password: 123456

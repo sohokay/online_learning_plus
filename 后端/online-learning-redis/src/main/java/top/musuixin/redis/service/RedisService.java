@@ -36,4 +36,6 @@ public interface RedisService {
      * @param key
      */
     void delete(String key);
+
+    Long getExpire(String key);
 }
