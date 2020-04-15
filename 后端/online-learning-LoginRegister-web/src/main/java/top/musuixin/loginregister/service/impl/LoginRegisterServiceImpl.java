@@ -20,6 +20,7 @@ import top.musuixin.loginregister.Bean.GitHubLoginBean;
 import top.musuixin.loginregister.Bean.LoginBean;
 import top.musuixin.loginregister.Bean.RegisterBean;
 import top.musuixin.loginregister.OnlineLearningLoginRegisterWeb;
+import top.musuixin.loginregister.dto.ChangePhoneDto;
 import top.musuixin.loginregister.service.LoginRegisterService;
 import top.musuixin.mapper.UserInfoMapper;
 import top.musuixin.mapper.UserThirdAuthMapper;
@@ -56,6 +57,7 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
     AuthenticationManager authenticationManager;
     protected static final Logger logger = LoggerFactory.getLogger(OnlineLearningLoginRegisterWeb.class);
     final String verification = "Verification";
+    final String loginCode = "loginVerification";
     final String ok = "Ok";
     final String regexMobile = "^1(3|4|5|7|8)\\d{9}$";
     final String identity = "identity";
@@ -138,7 +140,7 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
             HashMap<String, Object> hashMap = new HashMap<>();
             hashMap.put("token", login.getToken());
             UserInfo userInfo = userInfoMapper.selectById(user);
-            hashMap.put("user",userInfo.getPortrait());
+            hashMap.put("user", userInfo.getPortrait());
             return HttpResult.HTTP_OK(hashMap);
         }
         return HttpResult.HTTP_FORBIDDEN("手机号或密码错误");
@@ -215,5 +217,43 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
         }
         logger.debug(sendSms);
         return HttpResult.HTTP_INTERNAL_ERROR("系统内部错误");
+    }
+
+    @Override
+    public HttpResult getLoginCode(String mobile) {
+        QueryWrapper<Users> queryWrapper = new QueryWrapper<>();
+        if (!ReUtil.isMatch(regexMobile, mobile)) {
+            // 如匹配手机号错误
+            return HttpResult.HTTP_BAD_REQUEST("请输入正确的手机号");
+        }
+        if (redisService.get(loginCode + mobile) != null && redisService.getExpire(loginCode + mobile) > 540L) {
+            // 检测是否重复获取手机验证码
+            return HttpResult.HTTP_BAD_REQUEST("一分钟内重复获取");
+        }
+        if (usersMapper.selectOne(queryWrapper.eq("mobile", mobile)) != null) {
+            int randomInt = RandomUtil.randomInt(100000, 999999);
+            redisService.set(loginCode + mobile, String.valueOf(randomInt), 600);
+            SendSmsUtil.sendSms(mobile, randomInt, 579167);
+            return HttpResult.HTTP_OK("发送成功");
+        }
+        return HttpResult.HTTP_BAD_REQUEST("手机号未注册");
+    }
+
+    @Override
+    public HttpResult phoneLogin(ChangePhoneDto changePhoneDto, HttpServletRequest request) {
+        if (changePhoneDto.getCode().equals(redisService.get(loginCode + changePhoneDto.getMobile()))) {
+            QueryWrapper<Users> queryWrapper = new QueryWrapper<>();
+            Users users = usersMapper.selectOne(queryWrapper.eq("mobile", changePhoneDto.getMobile()));
+            if (!users.getUserRole().equals(request.getHeader("identity"))) {
+                return HttpResult.HTTP_BAD_REQUEST("身份错误");
+            }
+            JwtAuthenticatioToken token = SecurityUtils.login(request, String.valueOf(users.getUserId()), users.getPassword(), authenticationManager);
+            String portrait = userInfoMapper.selectById(users.getUserId()).getPortrait();
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("token", token.getToken());
+            hashMap.put("user", portrait);
+            return HttpResult.HTTP_OK(hashMap);
+        }
+        return HttpResult.HTTP_BAD_REQUEST("验证码错误");
     }
 }

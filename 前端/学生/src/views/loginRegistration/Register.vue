@@ -158,7 +158,6 @@
                 } else {
                     Notify({type: 'warning', message: '请输入正确的手机号'});
                 }
-
             }
         }
     }

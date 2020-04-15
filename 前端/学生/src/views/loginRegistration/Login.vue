@@ -17,7 +17,7 @@
             />
             <div>
                 <van-button round block type="primary" native-type="submit">
-                    登录
+                    {{loginMsg}}
                 </van-button>
             </div>
             <p style="padding-top: 5%;color: #42b983" @click="toRegister">未注册？点击这里手机号快速注册</p>
@@ -35,6 +35,7 @@
         name: 'Login',
         data() {
             return {
+                loginMsg: "登录",
                 form: {
                     mobile: '',
                     password: ''
@@ -53,11 +54,12 @@
                 return /^1(3|4|5|7|8)\d{9}$/.test(val);
             },
             onSubmitLogin() {
+                this.loginMsg = "正在登录中..."
                 request.post('http://localhost:8000/v1/login', this.form).then(res => {
                     setToken(res.data.token)
                     this.$router.push("/")
                 })
-
+                this.loginMsg = "登录"
 
             },
             gitHub() {

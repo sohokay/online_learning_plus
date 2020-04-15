@@ -3,20 +3,19 @@
     <!--:rules定义验证规则-->
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on"
              label-position="left">
-
       <div class="title-container">
-        <h3 class="title">登录</h3>
+        <h3 class="title">随心在线学习系统——管理员登录</h3>
       </div>
 
-      <el-form-item prop="username">
+      <el-form-item prop="mobile">
         <span class="svg-container">
-          <svg-icon icon-class="user"/>
+          <svg-icon icon-class="手机"/>
         </span>
         <el-input
-          ref="username"
-          v-model="loginForm.username"
-          placeholder="用户名"
-          name="username"
+          ref="mobile "
+          v-model="loginForm.mobile "
+          placeholder="手机号"
+          name="mobile "
           type="text"
           tabindex="1"
           auto-complete="on"
@@ -42,30 +41,16 @@
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
         </span>
       </el-form-item>
-<!--      prop定义具体验证规则-->
-      <el-form-item prop="verificationCode">
-        <span class="svg-container">
-          <i class="el-icon-more-outline"/>
-        </span>
-        <el-input
-          :key="verificationCodeType"
-          ref="verificationCode"
-          v-model="loginForm.verificationCode"
-          placeholder="验证码"
-          name="verificationCode"
-          type="text"
-          auto-complete="on"
-          @keyup.enter.native="handleLogin"
-        />
-        <span class="show-img">
-            <img :src="imgurl" @click="RefreshImg()">
-        </span>
-      </el-form-item>
+      <!--      prop定义具体验证规则-->
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;"
                  @click.native.prevent="handleLogin">登录
       </el-button>
-
-
+      <el-button type="success" style="width:100%;margin-bottom:30px;margin-left: 0px"
+                 @click="toRegister">注册
+      </el-button>
+      <el-button type="warning" style="width:100%;margin-bottom:30px;margin-left: 0px"
+                 @click="toPhoneLogin">忘记密码？手机验证码登录
+      </el-button>
     </el-form>
   </div>
 </template>
@@ -78,32 +63,29 @@
       // 密码验证规则
       const validatePassword = (rule, value, callback) => {
         if (value.length < 6) {
-          callback(new Error('密码至少6位数'))
+          callback(new Error('密码至少6位'))
         } else {
           callback()
         }
       }
-      const validateCode = (rule, value, callback) => {
-        if (value.length < 4) {
-          callback(new Error('请输入4位验证码'))
+
+      const validateMobile = (rule, value, callback) => {
+        if (!/^1[3456789]\d{9}$/.test(value)) {
+          callback(new Error('请输入正确的手机号'))
         } else {
           callback()
         }
       }
       return {
         loginForm: {
-          username: '',
+          mobile: '',
           password: '',
-          verificationCode: ''
         },
         loginRules: {
-          username: [{required: true, trigger: 'blur'}],
-          verificationCode: [{required: true, trigger: 'blur', validator: validateCode}],
+          mobile: [{required: true, trigger: 'blur', validator: validateMobile}],
           password: [{required: true, trigger: 'blur', validator: validatePassword}]
         },
-        imgurl: "http://localhost:8080/captcha.jpg",
         loading: false,
-        verificationCodeType: 'verificationCode',
         passwordType: 'password',
         redirect: undefined
       }
@@ -117,9 +99,6 @@
       }
     },
     methods: {
-      RefreshImg() {
-        this.imgurl = 'http://localhost:8080/captcha.jpg?' + Math.ceil(Math.random() * 10);
-      },
       showPwd() {
         if (this.passwordType === 'password') {
           this.passwordType = ''
@@ -146,6 +125,12 @@
             return false
           }
         })
+      },
+      toRegister() {
+        this.$router.push("/register")
+      },
+      toPhoneLogin(){
+        this.$router.push("/phone_login")
       }
     }
   }
@@ -206,7 +191,8 @@
   .login-container {
     min-height: 100%;
     width: 100%;
-    background-color: $bg;
+    background: url("http://img.musuixin.top/admin-login-bj.jpg") no-repeat;
+    background-size: 100% 100%;
     overflow: hidden;
 
     .login-form {

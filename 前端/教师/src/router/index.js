@@ -34,7 +34,15 @@ import Layout from '@/layout'
 export const constantRoutes = [
   {
     path: '/login',
-    component: () => import('@/views/login/index'),
+    component: () => import('@/views/login_register/login'),
+    hidden: true
+  }, {
+    path: '/register',
+    component: () => import('@/views/login_register/register'),
+    hidden: true
+  }, {
+    path: '/phone_login',
+    component: () => import('@/views/login_register/phone_login'),
     hidden: true
   },
 
@@ -81,14 +89,14 @@ export const constantRoutes = [
   {
     path: '/user',
     component: Layout,
-    redirect: '/user/index',
+    redirect: '/user/info',
     hidden: true,
     children: [
       {
-        path: 'index',
+        path: 'info',
         name: 'User',
-        component: () => import('@/views/user/index'),
-        meta: {title: 'user', icon: 'form'}
+        component: () => import('@/views/user/info'),
+        meta: {title: '个人信息', icon: 'form'}
       }
     ]
   },
@@ -168,8 +176,8 @@ export const constantRoutes = [
     component: Layout,
     children: [
       {
-        path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: {title: 'External Link', icon: 'link'}
+        path: 'https://github.com/musuixin',
+        meta: {title: '开发者GitHub', icon: 'link'}
       }
     ]
   },

@@ -17,7 +17,7 @@ public class SendSmsUtil {
     /**
      * @param phone  ff
      * @param random ff
-     * @param code   574088：修改密码  574087：修改手机号 564902：注册
+     * @param code   574088：修改密码  574087：修改手机号 564902：注册 579167:手机登录
      * @return ff
      */
     public static String sendSms(String phone, int random, int code) {
