@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * 第三方认证表 Mapper 接口
  * </p>
  *
- * @author jobob
+ * @author musuixin
  * @since 2020-03-31
  */
 public interface UserThirdAuthMapper extends BaseMapper<UserThirdAuth> {

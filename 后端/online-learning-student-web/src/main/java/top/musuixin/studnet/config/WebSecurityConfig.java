@@ -49,18 +49,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // 首页和登录页面
                 .antMatchers("/v1/**").hasRole("student")
 //                .hasRole("student")
-//                .antMatchers(
-//                        "/doc.html",
-//                        "/api-docs-ext	",
-//                        "/swagger-resources	",
-//                        "/api-docs",
-//                        "/swagger-ui.html",
-//                        "/swagger-resources/configuration/ui",
-//                        "/swagger-resources/configuration/security",
-//                        "/webjars/**",
-//                        "/service-worker.js",
-//                        "/swagger-resources"
-//                        ).permitAll()
+                .antMatchers(
+                        "/doc.html",
+                        "/api-docs-ext	",
+                        "/swagger-resources	",
+                        "/api-docs",
+                        "/swagger-ui.html",
+                        "/swagger-resources/configuration/ui",
+                        "/swagger-resources/configuration/security",
+                        "/webjars/**",
+                        "/service-worker.js",
+                        "/swagger-resources"
+                        ).permitAll()
                 .anyRequest().permitAll();
         // 退出登录处理器
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());

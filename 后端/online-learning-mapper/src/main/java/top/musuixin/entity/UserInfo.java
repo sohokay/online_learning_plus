@@ -14,7 +14,7 @@ import lombok.experimental.Accessors;
  * 用户信息表
  * </p>
  *
- * @author jobob
+ * @author musuixin
  * @since 2020-03-31
  */
 @Data

@@ -49,6 +49,7 @@
         <module>online-learning-common-util</module>
         <module>online-learning-teacher-web</module>
         <module>online-learning-admin-web</module>
+        <module>online-learning-data-reptile</module>
     </modules>
     <!--    依赖管理-->
     <dependencyManagement>

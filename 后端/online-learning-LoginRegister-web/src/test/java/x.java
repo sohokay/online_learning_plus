@@ -1,13 +1,16 @@
 import cn.hutool.http.HttpRequest;
 import org.junit.Test;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import top.musuixin.loginregister.OnlineLearningLoginRegisterWeb;
 
 /**
  * @author musuixin
  * @date 2020-04-03 18:36
  */
+@SpringBootTest(classes = OnlineLearningLoginRegisterWeb.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 public class x {
     @Test
     public void x() {

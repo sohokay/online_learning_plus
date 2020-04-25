@@ -19,7 +19,9 @@ import org.springframework.context.annotation.ComponentScan;
 @MapperScan(basePackages = "top.musuixin.mapper")
 @ComponentScan(value = "top.musuixin.*")
 public class OnlineLearningLoginRegisterWeb {
+
     public static void main(String[] args) {
         SpringApplication.run(OnlineLearningLoginRegisterWeb.class, args);
     }
+
 }

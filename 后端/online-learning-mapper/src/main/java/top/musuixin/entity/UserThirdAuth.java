@@ -12,7 +12,7 @@ import lombok.experimental.Accessors;
  * 第三方认证表
  * </p>
  *
- * @author jobob
+ * @author musuixin
  * @since 2020-03-31
  */
 @Data

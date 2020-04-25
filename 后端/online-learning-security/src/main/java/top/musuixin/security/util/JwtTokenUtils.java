@@ -152,6 +152,7 @@ public class JwtTokenUtils implements Serializable {
         String userID = getUserIdFromToken(token);
         return (userId.equals(userID) && !isTokenExpired(token));
     }
+
     /**
      * 刷新令牌
      *
@@ -198,6 +199,10 @@ public class JwtTokenUtils implements Serializable {
             token = null;
         }
         return token;
+    }
+
+    public static void main(String[] args) {
+        System.err.println(isTokenExpired("eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxMSIsInJvbGUiOlt7ImF1dGhvcml0eSI6IlJPTEVfYWRtaW4ifV0sImV4cCI6MTU4NzEzMjQ2MCwiY3JlYXRlZCI6MTU4NzA4OTI2MDU4Mn0.2fYfMrqsWuDO_la-Oxsq6Gof_2lZps0ZlzviurbJD7ezBFAYB4TbYMl4PDDMA72dNHXYLgR_tJzpnBeJe54zAA"));
     }
 
 }

@@ -4,8 +4,12 @@ spring:
     password: CSRQ19971031yu
     url: jdbc:mysql://rm-bp1783uv4c566u27tmo.mysql.rds.aliyuncs.com/online_learning?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=GMT%2B8
     driver-class-name: com.mysql.cj.jdbc.Driver
-    tomcat:
-      default-transaction-isolation: 2
+    hikari:
+      idleTimeout: 10000
+      minimumIdle: 5
+      maximum-pool-size: 10
+      max-lifetime: 30000
+      connection-test-query: SELECT 1
   application:
     # 服务名
     name: online-learning-LoginRegister-web

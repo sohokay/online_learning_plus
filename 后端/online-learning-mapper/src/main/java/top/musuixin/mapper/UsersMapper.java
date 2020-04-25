@@ -9,7 +9,7 @@ import top.musuixin.entity.Users;
  * 用户表 Mapper 接口
  * </p>
  *
- * @author jobob
+ * @author musuixin
  * @since 2020-03-31
  */
 public interface UsersMapper extends BaseMapper<Users> {

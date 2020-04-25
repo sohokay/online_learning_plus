@@ -13,7 +13,7 @@ import java.io.Serializable;
  * 用户表
  * </p>
  *
- * @author jobob
+ * @author musuixin
  * @since 2020-03-31
  */
 @Data

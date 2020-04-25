@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
  * 用户信息表 服务实现类
  * </p>
  *
- * @author jobob
+ * @author musuixin
  * @since 2020-03-26
  */
 @Service
