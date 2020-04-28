@@ -1,0 +1,131 @@
+<template>
+  <div class="app-container">
+    <el-row :gutter="20">
+      <el-col :span="4" style="height: 440px">
+        <el-card class="card">
+          <div slot="header" class="clearfix">
+            <span style="line-height: 28px">课程名称</span>
+            <el-button size="mini" style="float: right" @click="toInfo()">查看详情</el-button>
+          </div>
+          {{courseName}}
+        </el-card>
+        <el-card class="card">
+          <svg class="icon" aria-hidden="true">
+            <use xlink:href="#iconkechengchengji"/>
+          </svg>
+          <div class="card-text">
+            总报名数
+            <p>45</p>
+          </div>
+        </el-card>
+        <el-card class="card">
+          <svg class="icon" aria-hidden="true">
+            <use xlink:href="#iconqushixingtai"/>
+          </svg>
+          <div class="card-text">
+            总公告数
+            <p>45</p>
+          </div>
+        </el-card>
+        <el-card class="card">
+          <svg class="icon" aria-hidden="true">
+            <use xlink:href="#iconshujuqushi"/>
+          </svg>
+          <div class="card-text">
+            总讨论数
+            <p>45</p>
+          </div>
+        </el-card>
+      </el-col>
+      <el-col :span="20">
+        <el-card>
+          <line-chart :chartData="courseChartData"/>
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-tabs type="border-card" style="margin-top: 30px">
+      <el-tab-pane :lazy="true">
+        <span slot="label"><i class="el-icon-date" style="margin-right: 6px"/>公告</span>
+        <Notice :course-id="courseId"/>
+      </el-tab-pane>
+      <el-tab-pane label="课件" :lazy="true">
+        <span slot="label"> <i class="el-icon-folder-opened" style="margin-right: 6px"/>课件</span>
+        <Courseware/>
+      </el-tab-pane>
+      <el-tab-pane label="测试" :lazy="true">
+        <span slot="label"> <i class="el-icon-success" style="margin-right: 6px"/>测试</span>
+        测试
+      </el-tab-pane>
+      <el-tab-pane label="讨论" :lazy="true">
+        <span slot="label"> <i class="el-icon-user-solid" style="margin-right: 6px"/>讨论</span>
+        讨论
+      </el-tab-pane>
+    </el-tabs>
+  </div>
+</template>
+
+<script>
+  import LineChart from "@/views/course_details/echarts/LineChart";
+  import Notice from "@/views/course_details/Notice";
+  import Courseware from "@/views/course_details/Courseware";
+  import {initial} from '@/api/courseDetail'
+
+  export default {
+    name: "index",
+    components: {Courseware, Notice, LineChart},
+    created() {
+      initial(this.courseId).then(res => {
+        if (res.code === 201) {
+          this.$router.push("/")
+        }
+        this.courseName = res.data
+      })
+    },
+    methods: {
+      toInfo() {
+        this.$router.push("/course_info/"+this.courseId)
+      }
+    },
+    props: ["courseId"],
+    data() {
+      return {
+        courseChartData: [
+          {x: 100, y: 9999},
+          {x: 99999, y: 9999}
+        ],
+        courseName: ''
+      }
+    }
+  }
+</script>
+
+<style scoped lang="scss">
+  .icon {
+    width: 50px;
+    height: 60px;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+  }
+
+  .card {
+    cursor: pointer;
+    margin-bottom: 4px;
+
+    .card-text {
+      font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+      margin-top: 10px;
+      margin-right: 5px;
+      float: right;
+      font-size: 14px;
+      color: rgba(0, 0, 0, 0.45);
+    }
+
+    p {
+      color: #666666;
+      font-size: 16px;
+      font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, Arial, sans-serif;
+    }
+
+  }
+</style>

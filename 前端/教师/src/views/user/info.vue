@@ -245,7 +245,6 @@
         f.append("portrait", file.file)
         putHead(f).then(res => {
           this.infoForm.portrait = res.data
-
         })
       }
       ,

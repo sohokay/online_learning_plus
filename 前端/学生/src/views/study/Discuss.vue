@@ -1,12 +1,10 @@
 <template>
     <div>
+        <van-panel v-for="discuss in discussList" :title="discuss.title" :desc="discuss.time"
+                   :status="isMy(discuss.userId,discuss.isTeacher)"
+                   @click="toDetail(discuss.discussId)"/>
         <span ref="in" @click="input" class="iconfont icon-icon"
-              style="position:fixed;bottom: 30px;right:40px;font-size: 50px;color: #55a532"/>
-
-        <van-panel title="标题" desc="121212" status="我发布的" @click="toDetail('11')"/>
-        <van-panel title="标题" desc="描述信息" status="老师参与"/>
-        <van-panel title="标题" desc="描述信息" status="状态"/>
-
+              style="position:fixed;bottom: 30px;right:40px;font-size: 50px;color: #55a532;"/>
 
         <van-popup
                 v-model="inputShow"
@@ -15,7 +13,7 @@
                 :style="{ height: '70%' }"
         >
             <div style="text-align: center">
-                <p>发表评论</p>
+                <p>发发布帖子</p>
                 <van-form @submit="onSubmit">
                     <van-field
                             v-model="form.title"
@@ -24,16 +22,7 @@
                             placeholder="标题"
                             :rules="[{ required: true, message: '请填写标题' }]"
                     />
-                    <van-field
-                            v-model="form.content"
-                            type="textarea"
-                            rows="10"
-                            autosize
-                            name="内容"
-                            label="内容"
-                            placeholder="内容"
-                            :rules="[{ required: true, message: '请填写内容' }]"
-                    />
+                    <editor style="padding: 10px" ref="editor"/>
                     <div style="margin: 16px;">
                         <van-button round block type="info" native-type="submit">
                             提交
@@ -47,24 +36,64 @@
 </template>
 
 <script>
+    import Editor from "@/components/wangEditor";
+    import {getDiscuss, postDiscuss} from '@/api/courseDetails'
+    import {Notify} from "vant";
+
     export default {
         name: "Discuss",
+        components: {Editor},
+        created() {
+            getDiscuss(this.courseId).then(res => {
+                this.discussList = res.data.list
+                this.studentId = res.data.studentId
+            })
+        },
         methods: {
             input() {
                 this.inputShow = true
                 console.log(this.$refs.in.style)
             },
             toDetail(discussId) {
-                this.$router.push("/discussDetails/" + discussId)
+                this.$router.push("/discuss_details/" + discussId)
+            },
+            onSubmit() {
+                this.form.content = this.$refs.editor.editorContent
+                this.form.courseId = this.courseId
+                if (this.form.title.trim() !== '' && this.form.content.trim() !== '') {
+                    postDiscuss(this.form).then(res => {
+                        this.form.title = ''
+                        getDiscuss(this.courseId).then(res => {
+                            this.discussList = res.data.list
+                            this.inputShow = false
+                            Notify({type: 'success', message: '发布成功'});
+
+                        })
+                    })
+                } else {
+                    Notify({type: 'warning', message: '请填写内容'});
+                }
+
+            },
+            isMy(uid, isT) {
+                if (uid === this.studentId) {
+                    return "我发布的"
+                }
+                if (isT === 1) {
+                    return "老师发布"
+                }
             }
         },
         props: ['courseId'],
         data() {
             return {
+                studentId: 0,
                 form: {
                     title: '',
-                    content: ''
+                    content: '',
+                    courseId: ''
                 },
+                discussList: [],
                 inputShow: false
             }
         }

@@ -26,7 +26,8 @@
                         </van-button>
                     </van-col>
                 </van-row>
-            </div>            <div class="box-item">
+            </div>
+            <div class="box-item">
                 <p>Unit1 单元测试</p>
                 <van-divider/>
                 <p>提交截止时间</p>
@@ -41,7 +42,8 @@
                         </van-button>
                     </van-col>
                 </van-row>
-            </div>            <div class="box-item">
+            </div>
+            <div class="box-item">
                 <p>Unit1 单元测试</p>
                 <van-divider/>
                 <p>提交截止时间</p>
@@ -56,7 +58,8 @@
                         </van-button>
                     </van-col>
                 </van-row>
-            </div>            <div class="box-item">
+            </div>
+            <div class="box-item">
                 <p>Unit1 单元测试</p>
                 <van-divider/>
                 <p>提交截止时间</p>

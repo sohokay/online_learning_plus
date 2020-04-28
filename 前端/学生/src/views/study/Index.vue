@@ -3,9 +3,9 @@
         <van-image
                 width="100%"
                 height="200"
-                src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1583667598439&di=151e31183628c729fd44e137143e08f2&imgtype=0&src=http%3A%2F%2Fhiphotos.baidu.com%2F%25D3%25D3%25CA%25D6%25D0%25B4%25B6%25DF%25C0%25B2%2Fpic%2Fitem%2F593ca7fa7586ec23d8f9fd16.jpg"
+                :src="courseImg"
         />
-        <span class="iconfont icon-icon-" style="position:absolute;top:10px;left: 15px;font-size: 24px;color: white;"
+        <span class="iconfont icon-icon-" style="position:absolute;top:10px;left: 15px;font-size: 24px;color: back;"
               @click="back"/>
         <van-tabs v-model="active" sticky>
             <van-tab title="公告">
@@ -17,7 +17,7 @@
             <van-tab title="考核">
                 <Assessment :course-id="courseId"/>
             </van-tab>
-            <van-tab title="讨论">
+            <van-tab title="帖子">
                 <Discuss :course-id="courseId"/>
             </van-tab>
         </van-tabs>
@@ -30,16 +30,45 @@
     import Assessment from "@/views/study/Assessment";
     import Courseware from "@/views/study/Courseware";
     import Notice from "@/views/study/Notice";
+    import {isSelect} from '@/api/study'
+    import {Dialog, Notify} from 'vant';
+    import {mapGetters} from 'vuex'
 
     export default {
         name: "Index",
-        props:['courseId'],
+        props: ['courseId'],
         components: {Notice, Courseware, Assessment, Discuss},
-        data() {
-            return {
-                active: 0
+        watch: {
+            active(data) {
+                this.$store.commit('setTabActivity', data)
             }
         },
+        computed: {
+            ...mapGetters([
+                'tabActivity'
+            ]),
+        },
+        created() {
+            this.active=this.tabActivity
+            isSelect(this.courseId).then(res => {
+                if (res.code === 201) {
+                    Dialog.alert({
+                        title: '未选课',
+                        message: '请先选课，再学习'
+                    }).then(() => {
+                        this.$router.push('/myCourse')
+                    });
+                }
+            })
+           this.courseImg =this.$route.query.courseImg
+        },
+        data() {
+            return {
+                active: 0,
+                courseImg:''
+            }
+        },
+
         methods: {
             back() {
                 this.$router.go(-1)

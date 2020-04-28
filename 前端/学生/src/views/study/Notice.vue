@@ -1,19 +1,30 @@
 <template>
     <div>
-        <van-panel title="标题" desc="2018-09-09" @click="toNotice('55')"/>
-        <van-panel title="标题" desc="描述信息"/>
-        <van-panel title="标题" desc="描述信息"/>
-        {{courseId}}
+        <van-panel :title="notice.title" :desc="notice.time" @click="toNotice(notice.noticeId)"
+                   v-for="notice in noticeList"/>
     </div>
 </template>
 
 <script>
+    import {getNoticeList} from '@/api/study.js'
+
     export default {
         name: "Notice",
-        props:['courseId'],
-        methods:{
-            toNotice(noticeId){
-                this.$router.push('/noticeDetails/'+noticeId)
+        props: ['courseId'],
+        created() {
+            getNoticeList(this.courseId).then(res => {
+                this.noticeList = res.data
+            });
+
+        },
+        data() {
+            return {
+                noticeList: []
+            }
+        },
+        methods: {
+            toNotice(noticeId) {
+                this.$router.push('/notice_details/' + noticeId)
             }
         }
     }

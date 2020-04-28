@@ -48,13 +48,13 @@ const routes = [
         component: () => import('../views/loginRegistration/Register.vue')
     }, {
 
-        path: '/githublogin',
+        path: '/github_login',
         name: 'GitHubLogin',
         component: () => import('../views/loginRegistration/GitHubLogin')
     },
     //详情页面
     {
-        path: '/courseDetail/:courseId',
+        path: '/course_detail/:courseId',
         name: 'CourseDetail',
         component: () => import('../views/courseDetails/Index'),
         props: true
@@ -78,9 +78,9 @@ const routes = [
      * 详细的学习、讨论页面
      *
      */
-    //详细的学习页面路由
+    //详细的学习公告页面路由
     {
-        path: '/noticeDetails/:noticeId',
+        path: '/notice_details/:noticeId',
         name: 'NoticeDetails',
         component: () => import('@/views/studyDetails/NoticeDetails'),
         props: true
@@ -88,11 +88,21 @@ const routes = [
     },
     //详细的讨论页面
     {
-        path: '/discussDetails/:discussId',
+        path: '/discuss_details/:discussId',
         name: 'DiscussDetails',
         component: () => import('@/views/studyDetails/DiscussDetails'),
         props: true
 
+    },
+    /**
+     * 更多课程列表
+     *
+     */
+    {
+        path: '/more_course/:courseType',
+        name: 'MoreCourse',
+        component: () => import('@/views/moreCourse/index'),
+        props: true
     }
 ]
 

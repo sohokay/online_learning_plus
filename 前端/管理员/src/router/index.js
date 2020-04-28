@@ -8,28 +8,28 @@ import Layout from '@/layout'
 
 
 /**
- * Note: sub-menu only appear when route children.length >= 1
- * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
+ *注意：子菜单仅在路由children.length> = 1时出现
+ *详细信息请参见：https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
  *
- * hidden: true                   if set true, item will not show in the sidebar(default is false)
- * alwaysShow: true               if set true, will always show the root menu
- *                                if not set alwaysShow, when item has more than one children route,
- *                                it will becomes nested mode, otherwise not show the root menu
- * redirect: noRedirect           if set noRedirect will no redirect in the breadcrumb
- * name:'router-name'             the name is used by <keep-alive> (must set!!!)
- * meta : {
-    roles: ['admin','editor']    control the page roles (you can set multiple roles)
-    title: 'title'               the name show in sidebar and breadcrumb (recommend set)
-    icon: 'svg-name'             the icon show in the sidebar
-    breadcrumb: false            if set false, the item will hidden in breadcrumb(default is true)
-    activeMenu: '/example/list'  if set path, the sidebar will highlight the path you set
+ *隐藏：如果设置为true，则为true，则项目不会显示在边栏中（默认为false）
+ * alwaysShow：如果设置为true，则将始终显示根菜单
+ *如果未设置alwaysShow，则当项具有多个子路线时，
+ *它将变为嵌套模式，否则不显示根菜单
+ * redirect：noRedirect如果设置了noRedirect将不会在面包屑中重定向
+ * name：“路由器名称”，该名称由<keep-alive>使用（必须设置！！！）
+ * meta：{
+    角色：['admin'，'editor']控制页面角色（您可以设置多个角色）
+    title：标题显示在侧边栏和面包屑中的名称（推荐集）
+    图标：'svg-name'图标显示在侧边栏中
+    面包屑：如果设置为false，则该项将隐藏在面包屑中（默认为true）
+    activeMenu：如果设置了路径，则为“ / example / list”，边栏将突出显示您设置的路径
   }
- */
+ * /
 
-/**
+ / **
  * constantRoutes
- * a base page that does not have permission requirements
- * all roles can be accessed
+ *没有权限要求的基本页面
+ *可以访问所有角色
  */
 export const constantRoutes = [
   {
@@ -45,7 +45,20 @@ export const constantRoutes = [
     component: () => import('@/views/login_register/phone_login'),
     hidden: true
   },
-
+  {
+    path: '/user',
+    component: Layout,
+    redirect: '/user/info',
+    hidden: true,
+    children: [
+      {
+        path: 'info',
+        name: 'User',
+        component: () => import('@/views/user/info'),
+        meta: {title: '个人信息', icon: 'form'}
+      }
+    ]
+  },
   {
     path: '/404',
     component: () => import('@/views/404'),
@@ -65,12 +78,18 @@ export const constantRoutes = [
   },
 
   {
-    path: '/table',
+    path: '/student',
     component: Layout,
     redirect: '/table/city',
     name: 'table',
-    meta: {title: '表格', icon: 'example'},
+    meta: {title: '学生管理', icon: '学生'},
     children: [
+      {
+        path: 'rotation',
+        name: 'Rotation',
+        component: () => import('@/views/student/rotation/rotation'),
+        meta: {title: '首页轮播设置', icon: '轮播图'}
+      },
       {
         path: 'city',
         name: 'City',
@@ -87,24 +106,16 @@ export const constantRoutes = [
   },
 
   {
-    path: '/user',
+    path: '/teacher',
     component: Layout,
-    redirect: '/user/info',
-    hidden: true,
+    meta: {title: '教师管理', icon: '教师'},
     children: [
       {
-        path: 'info',
-        name: 'User',
-        component: () => import('@/views/user/info'),
-        meta: {title: '个人信息', icon: 'form'}
-      }
-    ]
-  },
-  {
-    path: '/form',
-    component: Layout,
-    children: [
-      {
+        path: 'index',
+        name: 'Form',
+        component: () => import('@/views/form/index'),
+        meta: {title: 'Form', icon: 'form'}
+      }, {
         path: 'index',
         name: 'Form',
         component: () => import('@/views/form/index'),
@@ -114,59 +125,64 @@ export const constantRoutes = [
   },
 
   {
-    path: '/nested',
+    path: '/admin',
     component: Layout,
     redirect: '/nested/menu1',
-    name: 'Nested',
+    name: '系统管理',
     meta: {
-      title: 'Nested',
-      icon: 'nested'
+      title: '系统管理',
+      icon: '管理员'
     },
     children: [
       {
         path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
         name: 'Menu1',
-        meta: {title: 'Menu1'},
+        meta: {title: '云服务', icon: '服务器'},
         children: [
           {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
+            path: 'https://pts.aliyun.com/platinum/index.htm?spm=5176.12818093.0.dpts.488716d0h78fnW#/dashboard#/?tab=2.0',
             name: 'Menu1-1',
-            meta: {title: 'Menu1-1'}
+            meta: {title: '性能测试', icon: 'pts'}
           },
           {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
+            path: 'https://cloudmonitor.console.aliyun.com/?spm=5176.13329450.203.dcloudmonitor.16704df5y3k5l9#/home/ecs',
             name: 'Menu1-2',
-            meta: {title: 'Menu1-2'},
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: {title: 'Menu1-2-1'}
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: {title: 'Menu1-2-2'}
-              }
-            ]
+            meta: {title: '云监控', icon: 'KHCFDC_监控'},
           },
           {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
+            path: 'https://dc.console.aliyun.com/next/index?spm=5176.12818093.0.ddomain.488716d0h78fnW#/domain/list/all-domain',
             name: 'Menu1-3',
-            meta: {title: 'Menu1-3'}
+            meta: {title: '域名', icon: '域名与网站'}
+          },
+          {
+            path: 'https://console.cloud.tencent.com/smsv2',
+            name: 'Menu1-4',
+            meta: {title: '云短信', icon: '短信'}
+          }, {
+            path: 'https://portal.qiniu.com/kodo/bucket/overview?bucketName=musuixin-online-learning',
+            name: 'Menu1-4',
+            meta: {title: '云存储', icon: '存储'}
           }
         ]
       },
       {
         path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        meta: {title: 'menu2'}
+        meta: {title: '微服务', icon: 'cloud'},
+        children: [
+          {
+            path: 'http://47.104.253.73:8848/nacos/#/serviceManagement?dataId=&group=&appName=&namespace=',
+            name: 'Menu2-1',
+            meta: {title: 'Nacos', icon: 'nacos'}
+          }, {
+            path: 'http://47.104.253.73:8888/#/dashboard',
+            name: 'Menu2-2',
+            meta: {title: 'Sentinel', icon: 'sentinel'}
+          }
+        ]
+      },
+      {
+        path: 'https://dms.console.aliyun.com/#/dms/login',
+        meta: {title: '数据库', icon: 'database'}
       }
     ]
   },

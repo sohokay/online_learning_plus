@@ -5,7 +5,7 @@ import {getToken} from '@/utils/auth'
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: 'http://localhost:8080', // url = 基本网址+请求网址
+  baseURL: 'http://localhost:8030/v1', // url = 基本网址+请求网址
   timeout: 5000 // 设置超时时间
 })
 // request 拦截器
@@ -28,7 +28,6 @@ service.interceptors.response.use(
   /**
    *如果想获取http信息（例如标题或状态）可以返回response => response
    */
-
   response => {
     const res = response.data
     if (res.code !== 200 && res.code !== 200) {
@@ -58,7 +57,7 @@ service.interceptors.response.use(
       })
     } else if (code === 400) {
       Message({
-        message: error.message || "验证码错误",
+        message: error.message || "信息验证错误",
         type: 'error',
         duration: 2 * 1000
       })

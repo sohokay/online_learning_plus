@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @date 2020-03-22 21:22
  */
 @SpringBootApplication
-@MapperScan(basePackages = {"top.musuixin.mapper","top.musuixin.studnet.mapper"})
+@MapperScan(basePackages = {"top.musuixin.mapper"})
 @ComponentScan(value = "top.musuixin.*")
 public class OnlineLearningStudentWeb {
     public static void main(String[] args) {

@@ -201,13 +201,13 @@
         },
         data() {
             return {
-                isFirs:true,
+                isFirs: true,
                 isShowInfo: false,
                 showMobile: false,
                 showPassword: false,
-                minDate: new Date(1950, 0, 1),
-                maxDate: new Date(2030, 0, 1),
-                currentDate: new Date(1970, 0, 1),
+                minDate: new Date('1970-01-01'),
+                maxDate: new Date('2030-12-31'),
+                currentDate: new Date('2020-01-01'),
                 originalForm: null,
                 form: {
                     userName: null,
@@ -258,7 +258,15 @@
                 return val;
             },
             onConfirm(date) {
-                this.form.birthday = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+                let month = date.getMonth()+1;
+                let day = date.getDate();
+                if (date.getMonth()+1 <= 9) {
+                    month = '0' + month;
+                }
+                if (date.getDate() <= 9) {
+                    day = '0' + date.getDate();
+                }
+                this.form.birthday =`${date.getFullYear()}-${month}-${day}`;
                 this.showCalendar = false;
             },
             tirggerFile(event) {
@@ -284,7 +292,7 @@
                     Notify({type: 'success', message: res.data});
                 })
             },
-            back(){
+            back() {
                 this.$router.go(-1)
 
             },

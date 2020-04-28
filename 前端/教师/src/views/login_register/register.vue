@@ -4,7 +4,7 @@
     <el-form ref="registerForm" :model="registerForm" :rules="registerRules" class="login-form" auto-complete="on"
              label-position="left">
       <div class="title-container">
-        <h3 class="title">随心在线学习系统——管理员注册</h3>
+        <h3 class="title">随心在线学习系统——教师注册</h3>
       </div>
       <el-form-item prop="userName">
         <span class="svg-container">

@@ -69,6 +69,7 @@ export function getInfo() {
     method: 'get'
   })
 }
+
 export function phoneLogin(data) {
   return request({
     url: url + '/phone-login',

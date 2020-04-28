@@ -10,8 +10,11 @@
   }
 </script>
 <style>
-
   body .el-table th.gutter {
-    display: table-cell !important
+    display: table-cell !important;
+  }
+
+  body {
+    zoom: 90%;
   }
 </style>

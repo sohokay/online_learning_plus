@@ -1,10 +1,38 @@
 {
   "id": "1660686",
-  "name": "仿mooc前台",
+  "name": "仿mooc学生前台",
   "font_family": "iconfont",
   "css_prefix_text": "icon-",
   "description": "",
   "glyphs": [
+    {
+      "icon_id": "1985015",
+      "name": "历史",
+      "font_class": "lishi",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
+      "icon_id": "7444172",
+      "name": "其他",
+      "font_class": "qita",
+      "unicode": "e87b",
+      "unicode_decimal": 59515
+    },
+    {
+      "icon_id": "11758449",
+      "name": "工具",
+      "font_class": "gongju",
+      "unicode": "e767",
+      "unicode_decimal": 59239
+    },
+    {
+      "icon_id": "1013076",
+      "name": "人",
+      "font_class": "wo",
+      "unicode": "e663",
+      "unicode_decimal": 58979
+    },
     {
       "icon_id": "1136001",
       "name": "更新",

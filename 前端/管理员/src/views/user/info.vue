@@ -36,7 +36,8 @@
               <el-date-picker
                 v-model="infoForm.birthday"
                 type="date"
-                placeholder="选择日期">
+                placeholder="选择日期"
+                value-format="yyyy-MM-dd">
               </el-date-picker>
             </el-form-item>
             <el-form-item>

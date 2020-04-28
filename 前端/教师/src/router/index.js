@@ -63,25 +63,39 @@ export const constantRoutes = [
       meta: {title: '主页', icon: 'dashboard'}
     }]
   },
-
   {
-    path: '/table',
+    path: '/course',
     component: Layout,
-    redirect: '/table/city',
-    name: 'table',
-    meta: {title: '表格', icon: 'example'},
+    meta: {title: '课程', icon: '课程'},
+    redirect: '/course/now_course',
     children: [
       {
-        path: 'city',
-        name: 'City',
-        component: () => import('@/views/table/city'),
-        meta: {title: '城市', icon: 'table'}
+        path: 'now_course',
+        name: 'NowCourse',
+        component: () => import('@/views/course/now_course'),
+        meta: {title: '现有课程', icon: '课程 学业'}
       },
       {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: {title: 'Tree', icon: 'tree'}
+        path: 'add_course',
+        name: 'AddCourse',
+        component: () => import('@/views/course/add_course'),
+        meta: {title: '添加课程', icon: '添加'}
+      }
+    ]
+  },
+
+  {
+    path: '/student',
+    component: Layout,
+    redirect: '/student/table',
+    name: 'student',
+    meta: {title: '学生', icon: '学生'},
+    children: [
+      {
+        path: 'table',
+        name: 'Table',
+        component: () => import('@/views/student/Index'),
+        meta: {title: '学生列表', icon: 'table'}
       }
     ]
   },
@@ -101,74 +115,39 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/form',
+    path: '/course_info',
     component: Layout,
+    redirect: '/course_info/:courseId',
+    hidden: true,
     children: [
       {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: {title: 'Form', icon: 'form'}
+        path: ':courseId',
+        name: 'CourseInfo',
+        component: () => import('@/views/course/course_info'),
+        meta: {title: '课程信息'}
       }
     ]
   },
 
+  /**
+   *课程详情页
+   */
+
   {
-    path: '/nested',
+    path: '/course_details',
     component: Layout,
-    redirect: '/nested/menu1',
-    name: 'Nested',
-    meta: {
-      title: 'Nested',
-      icon: 'nested'
-    },
+    redirect: '/course_details/info/:courseId',
+    hidden: true,
     children: [
       {
-        path: 'menu1',
-        component: () => import('@/views/nested/menu1/index'), // Parent router-view
-        name: 'Menu1',
-        meta: {title: 'Menu1'},
-        children: [
-          {
-            path: 'menu1-1',
-            component: () => import('@/views/nested/menu1/menu1-1'),
-            name: 'Menu1-1',
-            meta: {title: 'Menu1-1'}
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/nested/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: {title: 'Menu1-2'},
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: {title: 'Menu1-2-1'}
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: {title: 'Menu1-2-2'}
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/nested/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: {title: 'Menu1-3'}
-          }
-        ]
-      },
-      {
-        path: 'menu2',
-        component: () => import('@/views/nested/menu2/index'),
-        meta: {title: 'menu2'}
+        path: 'info/:courseId',
+        name: 'Info',
+        component: () => import('@/views/course_details/index'),
+        meta: {title: '课程详情'},
+        props: true
       }
     ]
+
   },
 
   {
