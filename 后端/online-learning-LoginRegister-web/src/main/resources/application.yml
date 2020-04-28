@@ -14,10 +14,6 @@ spring:
     # 服务名
     name: online-learning-LoginRegister-web
   cloud:
-    nacos:
-      discovery:
-        # 服务注册中心
-        server-addr: 47.104.253.73:8848
     sentinel:
       transport:
         dashboard: 47.104.253.73:8888
@@ -47,4 +43,4 @@ management:
 logging:
   level:
     top.musuixin: trace
-  file: F:\logger\online-learning-LoginRegister-web.logs
+  file: F:\logger\online-learning-LoginRegister-web.log

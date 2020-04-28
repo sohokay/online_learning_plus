@@ -2,6 +2,7 @@ package top.musuixin.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -38,7 +39,7 @@ public class Users implements Serializable {
     /**
      * 密码
      */
-
+    @JsonIgnore
     private String password;
 
     /**
@@ -49,6 +50,7 @@ public class Users implements Serializable {
     /**
      * 用户身份“学生”、"管理员'、”教师“、'root'
      */
+    @JsonIgnore
     private String userRole;
 
     /**

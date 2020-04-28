@@ -3,18 +3,14 @@ spring:
     # 服务名
     name: online-learning-student-web
   cloud:
-    nacos:
-      discovery:
-        # 服务注册中心
-        server-addr: 47.104.253.73:8848
     sentinel:
       transport:
         dashboard: 47.104.253.73:8888
   redis:
     lettuce:
       pool:
-        max-active: 8
-        max-idle: 8
+        max-active: 10
+        max-idle: 5
         max-wait: -1ms
         min-idle: 0
     host: 39.105.154.17
@@ -57,4 +53,6 @@ knife4j:
 #  ## Basic认证用户名
 #    username: root
 #  ## Basic认证密码
+mybatis-plus:
+  mapper-locations: classpath*:db/*.xml
 #    password: 123456
