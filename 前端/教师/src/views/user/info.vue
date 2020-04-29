@@ -5,10 +5,10 @@
         <el-card class="box-card">
           <el-form ref="infoForm" :model="infoForm" label-width="120px">
             <h3 style="margin-left: 60px">基本信息</h3>
-            <el-form-item label="用户名" :rules="{
+            <el-form-item label="姓名" :rules="{
       required: true, message: '用户名不能为空', trigger: 'blur'
     }" prop="userName">
-              <el-input v-model="infoForm.userName"/>
+              <el-input v-model="infoForm.userName" disabled/>
             </el-form-item>
             <el-form-item label="头像" :rules="{
       required: true, message: '头像不能为空', trigger: 'blur'
@@ -202,12 +202,12 @@
         this.$refs.mobileForm.validate(valid => {
             if (valid) {
               putMobile(this.mobileForm).then(res => {
-                this.$message({
-                  message: res.data,
-                  type: 'success'
-                })
-                this.mobileForm.code=''
-                this.mobileForm.mobile =  this.mobileForm.mobile.replace( this.mobileForm.mobile.slice(3, 7), "****")
+                  this.$message({
+                    message: res.data,
+                    type: 'success'
+                  })
+                  this.mobileForm.code = ''
+                  this.mobileForm.mobile = this.mobileForm.mobile.replace(this.mobileForm.mobile.slice(3, 7), "****")
 
                 }
               )

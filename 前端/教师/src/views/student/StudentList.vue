@@ -1,11 +1,21 @@
 <template>
   <div class="app-container">
     <el-row :gutter="20" style="bottom: 10px">
+      <el-col :span="4">
+        <el-select v-model="courseId" filterable placeholder="请选择">
+          <el-option
+            v-for="course in  courseList"
+            :key="course.courseId"
+            :label="course.courseName"
+            :value="course.courseId">
+          </el-option>
+        </el-select>
+      </el-col>
       <el-col :span="4" :offset="20">
         <el-input
           v-model="search"
           size="mini"
-          placeholder="输入关键字搜索" @input="searchCity">
+          placeholder="输入学生名字进行搜索" @input="searchStudent">
           <el-button slot="append" icon="el-icon-search"/>
         </el-input>
       </el-col>
@@ -20,40 +30,87 @@
       fit
       highlight-current-row
     >
-      <el-table-column
-        type="selection"
-        width="55" align="center">
-      </el-table-column>
       <el-table-column align="center" label="学生ID" prop="studentId"/>
-      <el-table-column label="学生名字" prop="name" align="studentName"/>
-      <el-table-column label="拼音" align="center" prop="pinyin"/>
-      <el-table-column label="是否热门" align="center" prop="isHot"/>
-      <!--      <el-table-column label="操作" align="center">-->
-      <!--        <template slot-scope="scope">-->
-      <!--          <el-button-->
-      <!--            size="mini"-->
-      <!--            @click="editCity(scope.$index, scope.row) ">编辑-->
-      <!--          </el-button>-->
-      <!--          <el-button-->
-      <!--            size="mini"-->
-      <!--            type="danger"-->
-      <!--            @click="handleDelete(scope.$index, scope.row)">删除-->
-      <!--          </el-button>-->
-      <!--        </template>-->
-      <!--      </el-table-column>-->
+      <el-table-column label="学生名字" prop="student.userName" align="center"/>
+      <el-table-column label="总学习时间（分钟）" prop="userActionStatistic.learningTime" align="center"/>
+      <el-table-column label="进入课程学习页面次数" prop="userActionStatistic.intoNum" align="center"/>
+      <el-table-column label="查看公告次数" prop="userActionStatistic.noticeNum" align="center"/>
+      <el-table-column label="发布帖子数目" prop="userActionStatistic.postNum" align="center"/>
+      <el-table-column label="参与讨论参数" prop="userActionStatistic.discussNum" align="center"/>
+      <el-table-column label="浏览课件次数" prop="userActionStatistic.coursewareNum" align="center"/>
+      <el-table-column label="分析页" align="center">
+        <template slot-scope="scope">
+          <el-button
+            size="mini">进入
+          </el-button>
+        </template>
+      </el-table-column>
     </el-table>
+
+    <el-pagination style="margin-top: 10px"
+                   background
+                   layout="prev, pager, next"
+                   @current-change="current"
+                   :total="total">
+    </el-pagination>
   </div>
 </template>
 
 <script>
+  import {getCourse} from '@/api/course'
+  import {getStudentList, getByName} from '@/api/student'
+
   export default {
     name: "StudentList",
+    watch: {
+      courseId: function (courseId) {
+        this.listLoading = true
+        getStudentList(courseId, 1).then(res => {
+          this.studentList = res.data.records
+          this.total = res.data.total
+          this.listLoading = false
+        })
+      }
+    },
+    created() {
+      getCourse().then(res => {
+        this.courseList = res.data
+        this.courseId = res.data[0].courseId
+      })
+    },
+    methods: {
+      searchStudent() {
+        if (this.search.trim() !== '') {
+          getByName(this.search, this.courseId).then(res => {
+            this.studentList = res.data
+            this.total = 0
+          })
+        }else {
+          this.listLoading = true
+          getStudentList(this.courseId, 1).then(res => {
+            this.studentList = res.data.records
+            this.total = res.data.total
+            this.listLoading = false
+          })
+        }
+      },
+      current(number) {
+        this.listLoading = true
+        getStudentList(this.courseId, number).then(res => {
+          this.studentList = res.data.records
+          this.total = res.data.total
+          this.listLoading = false
+        })
+      }
+    },
     data() {
       return {
-        studentList: [
-
-
-        ]
+        total: 0,
+        studentList: [],
+        courseId: '',
+        search: "",
+        listLoading: false,
+        courseList: []
       }
     }
   }

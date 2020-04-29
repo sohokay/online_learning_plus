@@ -124,7 +124,8 @@ export const constantRoutes = [
         path: ':courseId',
         name: 'CourseInfo',
         component: () => import('@/views/course/course_info'),
-        meta: {title: '课程信息'}
+        meta: {title: '课程信息'},
+        props: true
       }
     ]
   },

@@ -9,31 +9,31 @@
           </div>
           {{courseName}}
         </el-card>
-        <el-card class="card">
+        <el-card class="card" @click.native="setSignUpData">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#iconkechengchengji"/>
           </svg>
           <div class="card-text">
             总报名数
-            <p>45</p>
+            <p>{{SignUpNum}}</p>
           </div>
         </el-card>
-        <el-card class="card">
+        <el-card class="card" @click.native="setNoticeNum">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#iconqushixingtai"/>
           </svg>
           <div class="card-text">
             总公告数
-            <p>45</p>
+            <p>{{NoticeNum}}</p>
           </div>
         </el-card>
-        <el-card class="card">
+        <el-card class="card" @click.native="setDiscussNum">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#iconshujuqushi"/>
           </svg>
           <div class="card-text">
             总讨论数
-            <p>45</p>
+            <p>{{DiscussNum}}</p>
           </div>
         </el-card>
       </el-col>
@@ -52,13 +52,13 @@
         <span slot="label"> <i class="el-icon-folder-opened" style="margin-right: 6px"/>课件</span>
         <Courseware/>
       </el-tab-pane>
-      <el-tab-pane label="测试" :lazy="true">
+      <el-tab-pane label="测验" :lazy="true">
         <span slot="label"> <i class="el-icon-success" style="margin-right: 6px"/>测试</span>
-        测试
+        测验
       </el-tab-pane>
       <el-tab-pane label="讨论" :lazy="true">
         <span slot="label"> <i class="el-icon-user-solid" style="margin-right: 6px"/>讨论</span>
-        讨论
+        <Discuss :course-id="courseId"/>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -68,11 +68,12 @@
   import LineChart from "@/views/course_details/echarts/LineChart";
   import Notice from "@/views/course_details/Notice";
   import Courseware from "@/views/course_details/Courseware";
-  import {initial} from '@/api/courseDetail'
+  import {initial, getChartData} from '@/api/courseDetail'
+  import Discuss from "@/views/course_details/Discuss";
 
   export default {
     name: "index",
-    components: {Courseware, Notice, LineChart},
+    components: {Discuss, Courseware, Notice, LineChart},
     created() {
       initial(this.courseId).then(res => {
         if (res.code === 201) {
@@ -80,22 +81,60 @@
         }
         this.courseName = res.data
       })
+      getChartData(this.courseId).then(res => {
+        this.courseChartData = res.data.signUpNum
+        this.signUpNum = res.data.signUpNum
+        this.noticeNum = res.data.noticeNum
+        this.discussNum = res.data.discussNum
+      })
     },
     methods: {
       toInfo() {
-        this.$router.push("/course_info/"+this.courseId)
-      }
+        this.$router.push("/course_info/" + this.courseId)
+      },
+      setSignUpData() {
+        this.courseChartData = this.signUpNum;
+      },
+      setNoticeNum() {
+        this.courseChartData = this.noticeNum
+      }, setDiscussNum() {
+        this.courseChartData = this.discussNum
+      },
+
+    },
+    computed: {
+      SignUpNum: function () {
+        let i = 0;
+        this.signUpNum.map(s => {
+          i = i + s.num
+        })
+        return i;
+      },
+      NoticeNum: function () {
+        let i = 0;
+        this.noticeNum.map(s => {
+          i = i + s.num
+        })
+        return i;
+      }, DiscussNum: function () {
+        let i = 0;
+        this.discussNum.map(s => {
+          i = i + s.num
+        })
+        return i;
+      },
     },
     props: ["courseId"],
     data() {
       return {
-        courseChartData: [
-          {x: 100, y: 9999},
-          {x: 99999, y: 9999}
-        ],
+        signUpNum: [],
+        noticeNum: [],
+        discussNum: [],
+        courseChartData: [],
         courseName: ''
       }
-    }
+    },
+
   }
 </script>
 

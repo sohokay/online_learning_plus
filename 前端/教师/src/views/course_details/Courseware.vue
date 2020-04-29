@@ -9,7 +9,7 @@
   export default {
     name: "Courseware",
     created() {
-      alert("fff")
+      alert("待制作")
     }
   }
 </script>

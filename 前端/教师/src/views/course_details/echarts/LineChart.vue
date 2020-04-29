@@ -34,15 +34,19 @@
         this.chart.setOption({
           xAxis: {
             type: 'category',
-            data:  chartData.map(x => x.x),
+            data: chartData.map(x => {
+                var date = new Date(x.time)
+              return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate();
+              }
+            ),
             boundaryGap: false,
             axisTick: {
               show: false
             }
           },
           grid: {
-            left: 6,
-            right: 20,
+            left: 20,
+            right: 40,
             bottom: 50,
             top: 10,
             containLabel: true
@@ -65,7 +69,7 @@
             type: 'inside'
           }],
           series: [{
-            data: chartData.map(x => x.y),
+            data: chartData.map(x => x.num),
             type: 'line',
             smooth: true
           }]

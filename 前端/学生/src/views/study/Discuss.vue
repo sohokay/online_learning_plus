@@ -67,19 +67,17 @@
                             this.discussList = res.data.list
                             this.inputShow = false
                             Notify({type: 'success', message: '发布成功'});
-
                         })
                     })
                 } else {
                     Notify({type: 'warning', message: '请填写内容'});
                 }
-
             },
             isMy(uid, isT) {
                 if (uid === this.studentId) {
                     return "我发布的"
                 }
-                if (isT === 1) {
+                if (isT == 1) {
                     return "老师发布"
                 }
             }

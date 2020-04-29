@@ -135,6 +135,7 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
 ////            return HttpResult.HTTP_CONFLICT("登录不安全");
 ////        }
         // 上线后开启
+        System.err.println(passwordEncoder);
         if (passwordEncoder.matches(loginBean.getPassword(), user.getPassword())) {
             JwtAuthenticatioToken login = SecurityUtils.login(request, String.valueOf(user.getUserId()), user.getPassword(), authenticationManager);
             HashMap<String, Object> hashMap = new HashMap<>();

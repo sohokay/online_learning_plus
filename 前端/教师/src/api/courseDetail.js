@@ -9,6 +9,14 @@ export function initial(courseId) {
   })
 }
 
+export function getChartData(courseId) {
+  return request.get("/course_detail/chartData", {
+    params: {
+      courseId
+    }
+  })
+}
+
 
 //notice数据操作
 export function getNotice(courseId) {
@@ -33,4 +41,11 @@ export function deleteNotice(noticeId) {
 
 export function postNotice(data) {
   return request.post("/notice", data)
+}
+
+/**
+ * 获取课程的详情信息
+ */
+export function getCourseInfo(courseId) {
+  return request.get("/course_info/" + courseId)
 }
