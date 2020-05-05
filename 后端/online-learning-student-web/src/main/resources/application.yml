@@ -46,13 +46,13 @@ logging:
     com.alibaba.nacos.client: error
   file: F:\logger\online-learning-student-web.log
 knife4j:
-#  production: true
-  ## 开启Swagger的Basic认证功能,默认是false
-#  basic:
-#    enable: true
-#  ## Basic认证用户名
-#    username: root
-#  ## Basic认证密码
+  production: true
+  # 开启Swagger的Basic认证功能,默认是false
+  basic:
+    enable: true
+  ## Basic认证用户名
+    username: root
+  ## Basic认证密码
+    password: 123456
 mybatis-plus:
   mapper-locations: classpath*:db/*.xml
-#    password: 123456

@@ -1,7 +1,8 @@
 package top.musuixin.mapper;
 
-import top.musuixin.entity.UserThirdAuth;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import lombok.Data;
+import top.musuixin.entity.UserThirdAuth;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @author musuixin
  * @since 2020-03-31
  */
+
 public interface UserThirdAuthMapper extends BaseMapper<UserThirdAuth> {
 
 }

@@ -44,3 +44,12 @@ logging:
   level:
     top.musuixin: trace
   file: F:\logger\online-learning-LoginRegister-web.log
+knife4j:
+  production: true
+  # 开启Swagger的Basic认证功能,默认是false
+  basic:
+    enable: true
+    ## Basic认证用户名
+    username: root
+    ## Basic认证密码
+    password: 123456

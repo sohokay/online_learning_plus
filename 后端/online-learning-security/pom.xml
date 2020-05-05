@@ -33,6 +33,10 @@
             <groupId>top.musuixin</groupId>
             <artifactId>online-learning-service</artifactId>
         </dependency>
+        <dependency>
+            <groupId>top.musuixin</groupId>
+            <artifactId>online-learning-mapper</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
