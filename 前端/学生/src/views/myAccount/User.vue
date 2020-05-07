@@ -187,12 +187,13 @@
     import Index from "@/views/study/Index";
     import request from '@/utils/request.js'
     import {Notify} from "vant";
+    let url='http://login_register_api.musuixin.cn/v1'
 
     export default {
         name: "user",
         components: {Index},
         created() {
-            request.get("http://localhost:8000/v1/user-info").then(res => {
+            request.get(url+"/user-info").then(res => {
                 this.form = res.data
                 this.form.password = "*************"
                 this.currentDate = new Date(res.data.birthday)
@@ -274,7 +275,7 @@
                 var form = new FormData();
                 if (undefined !== event.target.files[0]) {
                     form.append("portrait", event.target.files[0])
-                    request.put("http://localhost:8000/v1/portrait", form).then(res => {
+                    request.put(url+"/portrait", form).then(res => {
                         this.form.portrait = res.data
                     })
                 }
@@ -288,7 +289,7 @@
                 return /^1(3|4|5|7|8)\d{9}$/.test(val);
             },
             Submission() {
-                request.put("http://localhost:8000/v1/user-info", this.form).then(res => {
+                request.put(url+"/user-info", this.form).then(res => {
                     Notify({type: 'success', message: res.data});
                 })
             },
@@ -301,7 +302,7 @@
             * */
             sendCodePhone() {
                 if (this.phonePattern(this.mobileForm.mobile)) {
-                    request.get("http://localhost:8000/v1/phone-verification", {
+                    request.get(url+"/phone-verification", {
                         params: {
                             mobile: this.mobileForm.mobile
                         }
@@ -326,7 +327,7 @@
                 this.$refs.phoneForm.submit()
             },
             changePhone() {
-                request.put("http://localhost:8000/v1/mobile", this.mobileForm).then(res => {
+                request.put(url+"/mobile", this.mobileForm).then(res => {
                     Notify({type: 'success', message: res.data});
                     this.showMobile = false;
                     this.form.mobile = this.mobileForm.mobile
@@ -336,7 +337,7 @@
              * 修改密码与后台交互
              */
             changePassword() {
-                request.put("http://localhost:8000/v1/password", this.passwordForm).then(res => {
+                request.put(url+"/password", this.passwordForm).then(res => {
                     Notify({type: 'success', message: res.data});
                     this.passwordForm.code = null
                     this.passwordForm.password = null
@@ -351,7 +352,7 @@
             *
             * */
             sendCodePassword() {
-                request.get("http://localhost:8000/v1/password-verification").then(res => {
+                request.get(url+"/password-verification").then(res => {
                     this.time = 60
                     this.isAblePassword = true
                     localStorage.setItem("codeTime", new Date().valueOf())
@@ -375,7 +376,7 @@
              * 修改密码与后台交互
              */
             changePassword() {
-                request.put("http://localhost:8000/v1/password", this.passwordForm).then(res => {
+                request.put(url+"/password", this.passwordForm).then(res => {
                     Notify({type: 'success', message: res.data});
 
                     this.passwordForm.code = null

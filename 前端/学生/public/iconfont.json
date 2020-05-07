@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "4098230",
+      "name": "pdf",
+      "font_class": "pdf",
+      "unicode": "e7c1",
+      "unicode_decimal": 59329
+    },
+    {
       "icon_id": "1985015",
       "name": "历史",
       "font_class": "lishi",

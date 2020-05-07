@@ -39,6 +39,7 @@
     import Editor from "@/components/wangEditor";
     import {getDiscuss, postDiscuss} from '@/api/courseDetails'
     import {Notify} from "vant";
+    import {addPostNum} from "@/api/learningBehavior";
 
     export default {
         name: "Discuss",
@@ -68,6 +69,7 @@
                             this.inputShow = false
                             Notify({type: 'success', message: '发布成功'});
                         })
+                        addPostNum()
                     })
                 } else {
                     Notify({type: 'warning', message: '请填写内容'});

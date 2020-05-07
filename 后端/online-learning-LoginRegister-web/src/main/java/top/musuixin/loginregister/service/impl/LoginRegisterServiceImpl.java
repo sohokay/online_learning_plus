@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -48,7 +49,7 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
     @Autowired
     private UsersMapper usersMapper;
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private  PasswordEncoder passwordEncoder;
     @Autowired
     private UserInfoMapper userInfoMapper;
     @Autowired
@@ -61,6 +62,7 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
     final String ok = "Ok";
     final String regexMobile = "^1(3|4|5|7|8)\\d{9}$";
     final String identity = "identity";
+
 
     @Override
     @Transactional
@@ -103,7 +105,6 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
             return HttpResult.HTTP_FORBIDDEN("由于大陆网络原因，GiHub超时,请重试或换其他登陆方式");
         }
         GitHubBean gitHubBean = JSONUtil.parseObj(tokenBody).toBean(GitHubBean.class);
-        System.err.println(gitHubBean.getMessage());
         //获取第三方的信息
         if (gitHubBean.getMessage() != null) {
             //如果是code错误
@@ -135,7 +136,6 @@ public class LoginRegisterServiceImpl implements LoginRegisterService {
 ////            return HttpResult.HTTP_CONFLICT("登录不安全");
 ////        }
         // 上线后开启
-        System.err.println(passwordEncoder);
         if (passwordEncoder.matches(loginBean.getPassword(), user.getPassword())) {
             JwtAuthenticatioToken login = SecurityUtils.login(request, String.valueOf(user.getUserId()), user.getPassword(), authenticationManager);
             HashMap<String, Object> hashMap = new HashMap<>();

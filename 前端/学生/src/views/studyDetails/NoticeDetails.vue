@@ -17,13 +17,18 @@
 
 <script>
     import {getNoticeById} from '@/api/study'
+    import {addNoticeNum} from '@/api/learningBehavior.js'
+
 
     export default {
         name: "NoticeDetails",
         created() {
             getNoticeById(this.noticeId).then(res => {
                 this.notice = res.data
+                addNoticeNum()
+
             })
+
         },
         methods: {
             back() {
@@ -33,9 +38,7 @@
         props: ['noticeId'],
         data() {
             return {
-                notice: {
-
-                }
+                notice: {}
             }
         }
     }

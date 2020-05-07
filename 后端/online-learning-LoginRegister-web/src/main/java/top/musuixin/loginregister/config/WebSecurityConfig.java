@@ -60,7 +60,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // 跨域预检请求
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .antMatchers("/v1/login","/v1/register","/v1/githublogin","/v1/verification","/v1/login-verification","/v1/phone-login").permitAll()
+                .antMatchers("/v1/login","/v1/register","/v1/github_login","/v1/verification","/v1/login-verification","/v1/phone-login").permitAll()
                                 .antMatchers(
                         "/doc.html",
                         "/api-docs-ext	",

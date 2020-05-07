@@ -2,7 +2,7 @@ import router from './index'
 import store from '../store'
 import {getToken} from '@/utils/auth' // get token from cookie
 
-const whiteList = ['/login','/register','/githublogin'] // no redirect whitelist
+const whiteList = ['/login','/register','/github_login'] // no redirect whitelist
 
 router.beforeEach(async (to, from, next) => {
     // set page title

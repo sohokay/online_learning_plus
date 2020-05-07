@@ -83,6 +83,7 @@
     import {getDisDetail, putReply} from '@/api/courseDetails.js'
     import Editor from "@/components/wangEditor";
     import {Notify} from "vant";
+    import {addDiscussNum} from '@/api/learningBehavior.js'
 
     export default {
         name: "DiscussDetails",
@@ -118,12 +119,11 @@
                         getDisDetail(this.discussId).then(res => {
                             this.list = res.data
                             this.inputShow = false
-                            Notify({type:"success",message:"发布成功"})
+                            Notify({type: "success", message: "发布成功"})
                         })
+                        addDiscussNum()
                     })
                 }
-
-
             }
         }
     }

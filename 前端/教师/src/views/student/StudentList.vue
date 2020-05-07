@@ -32,16 +32,16 @@
     >
       <el-table-column align="center" label="学生ID" prop="studentId"/>
       <el-table-column label="学生名字" prop="student.userName" align="center"/>
-      <el-table-column label="总学习时间（分钟）" prop="userActionStatistic.learningTime" align="center"/>
-      <el-table-column label="进入课程学习页面次数" prop="userActionStatistic.intoNum" align="center"/>
-      <el-table-column label="查看公告次数" prop="userActionStatistic.noticeNum" align="center"/>
-      <el-table-column label="发布帖子数目" prop="userActionStatistic.postNum" align="center"/>
-      <el-table-column label="参与讨论参数" prop="userActionStatistic.discussNum" align="center"/>
-      <el-table-column label="浏览课件次数" prop="userActionStatistic.coursewareNum" align="center"/>
+      <el-table-column label="总学习时间（分钟）"  sortable prop="userActionStatistic.learningTime" align="center"/>
+      <el-table-column label="进入课程学习页面次数" sortable prop="userActionStatistic.intoNum" align="center"/>
+      <el-table-column label="查看公告次数"  sortable prop="userActionStatistic.noticeNum" align="center"/>
+      <el-table-column label="发布帖子数目"  sortable prop="userActionStatistic.postNum" align="center"/>
+      <el-table-column label="参与讨论参数"  sortable prop="userActionStatistic.discussNum" align="center"/>
+      <el-table-column label="浏览课件次数"  sortable prop="userActionStatistic.coursewareNum" align="center"/>
       <el-table-column label="分析页" align="center">
         <template slot-scope="scope">
           <el-button
-            size="mini">进入
+            size="mini" @click="toAnalysis(scope.row)">进入
           </el-button>
         </template>
       </el-table-column>
@@ -79,13 +79,24 @@
       })
     },
     methods: {
+      toAnalysis(row) {
+        console.log(row)
+        this.$router.push({
+          path: '/student/analysis', query: {
+            courseId: row.courseId,
+            actionId: row.userActionStatistic.actionId,
+            studentId: row.studentId,
+            selectionId:row.selectionId
+          }
+        })
+      },
       searchStudent() {
         if (this.search.trim() !== '') {
           getByName(this.search, this.courseId).then(res => {
             this.studentList = res.data
             this.total = 0
           })
-        }else {
+        } else {
           this.listLoading = true
           getStudentList(this.courseId, 1).then(res => {
             this.studentList = res.data.records

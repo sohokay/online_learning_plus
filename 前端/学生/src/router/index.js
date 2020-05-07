@@ -94,6 +94,14 @@ const routes = [
         props: true
 
     },
+    //课件详情页
+    {
+        path: '/courseware_details/:url',
+        name: 'Courseware',
+        component: () => import('@/views/studyDetails/pdf'),
+        props: true
+
+    },
     /**
      * 更多课程列表
      *
@@ -102,6 +110,16 @@ const routes = [
         path: '/more_course/:courseType',
         name: 'MoreCourse',
         component: () => import('@/views/moreCourse/index'),
+        props: true
+    }, {
+        path: '/test_questions/:testId',
+        name: 'TestQuestions',
+        component: () => import('@/views/studyDetails/TestDetails'),
+        props: true
+    }, {
+        path: '/student_valuate',
+        name: 'StudentEvaluate',
+        component: () => import('@/views/studyDetails/StudentEvaluate'),
         props: true
     }
 ]

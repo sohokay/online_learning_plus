@@ -89,40 +89,10 @@ export const constantRoutes = [
         name: 'Rotation',
         component: () => import('@/views/student/rotation/rotation'),
         meta: {title: '首页轮播设置', icon: '轮播图'}
-      },
-      {
-        path: 'city',
-        name: 'City',
-        component: () => import('@/views/table/city'),
-        meta: {title: '城市', icon: 'table'}
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: {title: 'Tree', icon: 'tree'}
       }
     ]
   },
 
-  {
-    path: '/teacher',
-    component: Layout,
-    meta: {title: '教师管理', icon: '教师'},
-    children: [
-      {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: {title: 'Form', icon: 'form'}
-      }, {
-        path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: {title: 'Form', icon: 'form'}
-      }
-    ]
-  },
 
   {
     path: '/admin',
@@ -203,7 +173,7 @@ export const constantRoutes = [
 ]
 
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
+  mode: 'history', // require service support
   scrollBehavior: () => ({y: 0}),
   routes: constantRoutes
 })

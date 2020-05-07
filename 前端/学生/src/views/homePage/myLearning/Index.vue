@@ -1,19 +1,11 @@
 <template>
     <div>
-        <van-tabs v-model="active" sticky>
-            <van-tab title="我的课程">
-                <MyClass/>
-            </van-tab>
-            <van-tab title="学习分析">
-                <StudyAnalysis/>
-            </van-tab>
-        </van-tabs>
+        <MyClass/>
     </div>
 </template>
 
 <script>
     import MyClass from "@/views/homePage/myLearning/MyClass";
-    import StudyAnalysis from "@/views/homePage/myLearning/StudyAnalysis";
 
     export default {
         name: "Index",
@@ -21,7 +13,7 @@
 
 
         },
-        components: {StudyAnalysis, MyClass},
+        components: {MyClass},
         data() {
             return {
                 active: 0

@@ -26,7 +26,7 @@ public class LoginRegister {
     private LoginRegisterService loginRegisterService;
 
 
-    @PostMapping("/githublogin")
+    @PostMapping("/github_login")
     @ApiOperation("GitHub登录")
     public HttpResult test(@RequestBody GitHubLoginBean gitHubLoginBean, HttpServletRequest request) {
         return loginRegisterService.gitHubLogin(gitHubLoginBean, request);
@@ -61,6 +61,4 @@ public class LoginRegister {
     public HttpResult phoneLogin(@RequestBody ChangePhoneDto changePhoneDto, HttpServletRequest request) {
         return loginRegisterService.phoneLogin(changePhoneDto, request);
     }
-
-
 }

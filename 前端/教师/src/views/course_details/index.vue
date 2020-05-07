@@ -9,7 +9,7 @@
           </div>
           {{courseName}}
         </el-card>
-        <el-card class="card" @click.native="setSignUpData">
+        <el-card shadow="hover" class="card" @click.native="setSignUpData">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#iconkechengchengji"/>
           </svg>
@@ -18,7 +18,7 @@
             <p>{{SignUpNum}}</p>
           </div>
         </el-card>
-        <el-card class="card" @click.native="setNoticeNum">
+        <el-card shadow="hover" class="card" @click.native="setNoticeNum">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#iconqushixingtai"/>
           </svg>
@@ -27,7 +27,7 @@
             <p>{{NoticeNum}}</p>
           </div>
         </el-card>
-        <el-card class="card" @click.native="setDiscussNum">
+        <el-card shadow="hover" class="card" @click.native="setDiscussNum">
           <svg class="icon" aria-hidden="true">
             <use xlink:href="#iconshujuqushi"/>
           </svg>
@@ -50,11 +50,11 @@
       </el-tab-pane>
       <el-tab-pane label="课件" :lazy="true">
         <span slot="label"> <i class="el-icon-folder-opened" style="margin-right: 6px"/>课件</span>
-        <Courseware/>
+        <Courseware :course-id="courseId"/>
       </el-tab-pane>
       <el-tab-pane label="测验" :lazy="true">
         <span slot="label"> <i class="el-icon-success" style="margin-right: 6px"/>测试</span>
-        测验
+        <Test :course-id="courseId"/>
       </el-tab-pane>
       <el-tab-pane label="讨论" :lazy="true">
         <span slot="label"> <i class="el-icon-user-solid" style="margin-right: 6px"/>讨论</span>
@@ -70,10 +70,11 @@
   import Courseware from "@/views/course_details/Courseware";
   import {initial, getChartData} from '@/api/courseDetail'
   import Discuss from "@/views/course_details/Discuss";
+  import Test from "@/views/course_details/Test";
 
   export default {
     name: "index",
-    components: {Discuss, Courseware, Notice, LineChart},
+    components: {Test, Discuss, Courseware, Notice, LineChart},
     created() {
       initial(this.courseId).then(res => {
         if (res.code === 201) {

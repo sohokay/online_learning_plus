@@ -96,7 +96,13 @@ export const constantRoutes = [
         name: 'Table',
         component: () => import('@/views/student/Index'),
         meta: {title: '学生列表', icon: 'table'}
-      }
+      }, {
+        path: 'analysis',
+        name: 'Analysis',
+        component: () => import('@/views/student/StudyAnalysis'),
+        hidden: true,
+        meta: {title: '学习分析', icon: 'table'}
+      },
     ]
   },
 
@@ -146,6 +152,13 @@ export const constantRoutes = [
         component: () => import('@/views/course_details/index'),
         meta: {title: '课程详情'},
         props: true
+      }, {
+        path: 'test/:testId',
+        name: 'Test',
+        component: () => import('@/views/course_details/TestDetail'),
+        meta: {title: '测验详情'},
+        props: true
+
       }
     ]
 
@@ -167,7 +180,7 @@ export const constantRoutes = [
 ]
 
 const createRouter = () => new Router({
-  // mode: 'history', // require service support
+  mode: 'history', // require service support
   scrollBehavior: () => ({y: 0}),
   routes: constantRoutes
 })

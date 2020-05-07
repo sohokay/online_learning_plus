@@ -30,6 +30,7 @@
 <script>
     import {setToken, getToken} from '@/utils/auth'
     import request from '@/utils/request'
+    let url='http://login_register_api.musuixin.cn/v1'
 
     export default {
         name: 'Login',
@@ -55,12 +56,11 @@
             },
             onSubmitLogin() {
                 this.loginMsg = "正在登录中..."
-                request.post('http://localhost:8000/v1/login', this.form).then(res => {
+                request.post(url+'/login', this.form).then(res => {
                     setToken(res.data.token)
                     this.$router.push("/")
                 })
                 this.loginMsg = "登录"
-
             },
             gitHub() {
                 location.href = "https://github.com/login/oauth/authorize?client_id=e5885dde9fe33c6e3488";

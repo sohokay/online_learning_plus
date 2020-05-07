@@ -5,7 +5,7 @@ import {getToken} from '@/utils/auth'
 
 // 创建axios实例
 const service = axios.create({
-  baseURL: 'http://localhost:8030/v1', // url = 基本网址+请求网址
+  baseURL: 'http://admin_api.musuixin.cn/v1', // url = 基本网址+请求网址
   timeout: 5000 // 设置超时时间
 })
 // request 拦截器

@@ -44,7 +44,7 @@ logging:
   level:
     top.musuixin: trace
     com.alibaba.nacos.client: error
-  file: F:\logger\online-learning-student-web.log
+  file: /logs/online-learning-student-web.log
 knife4j:
   production: true
   # 开启Swagger的Basic认证功能,默认是false

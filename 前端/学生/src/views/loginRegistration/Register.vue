@@ -52,6 +52,7 @@
     import Vue from 'vue';
     import {Notify} from 'vant';
     import request from '@/utils/request'
+    let url='http://login_register_api.musuixin.cn/v1'
 
     Vue.use(Notify);
     export default {
@@ -124,7 +125,7 @@
              * 注册逻辑
              */
             onSubmitRegister() {
-                request.post("http://localhost:8000/v1/register", this.form).then(res => {
+                request.post(url+"/register", this.form).then(res => {
                     Notify({type: 'success', message: '注册成功，跳转登录'});
                     this.$router.push('/login')
                 })
@@ -137,7 +138,7 @@
             },
             sendCode() {
                 if (this.phonePattern(this.form.mobile)) {
-                    request.get("http://localhost:8000/v1/verification", {
+                    request.get(url+"/verification", {
                         params: {
                             mobile: this.form.mobile
                         }

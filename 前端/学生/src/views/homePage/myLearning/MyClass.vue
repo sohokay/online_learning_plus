@@ -1,15 +1,5 @@
 <template>
     <div>
-        <div class="learning-time">
-            <van-row style="padding-top: 3px;padding-left: 8px">
-                <van-col span="12" style="line-height:70px;font-size: 24px;color: white ">今日学习时长:50</van-col>
-                <van-col span="4" offset="6">
-                    <svg class="icon" aria-hidden="true" style="">
-                        <use xlink:href="#icon-medal"></use>
-                    </svg>
-                </van-col>
-            </van-row>
-        </div>
         <van-divider>我的课程</van-divider>
         <div class="my-class">
             <van-card
@@ -29,14 +19,14 @@
                 v-model="show"
                 round
                 position="bottom"
-                style=" height: 80%;text-align: center;background-color: #f7f8fa"
+                style=" height: 30%;text-align: center;background-color: #f7f8fa"
         >
             <van-circle
                     v-model="currentRate"
                     :rate="30"
                     :speed="100"
                     color="red"
-                    text="差"
+                    text="正在开发中"
                     style="top: 10px"
             />
         </van-popup>

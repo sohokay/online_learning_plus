@@ -7,12 +7,12 @@
         </div>
         <ul class="my-learn-tab">
             <li>
-                <p>0</p>
-                我的评论
+                <p>{{discussNum}}</p>
+                我的帖子数
             </li>
             <li>
-                <p>0</p>
-                总学时长
+                <p>{{replyNum}}</p>
+                我的评论数
             </li>
         </ul>
         <div class="margin-set " @click="toLocation('/user')">
@@ -21,7 +21,7 @@
                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAkCAMAAABR74GsAAAAhFBMVEVHcEy+wMa+wcW9wMXQ0NDFxcW9wMW///+9wMW9wMW+wMW+wse+wMXBwca/wsW9wMW+wMa9wcW9wcW+wMa9wse9wMW9wcbAwMa/xsa9wMXAwMe9wMW9wcW/wca+wca9wMW9wsa+wMa9wMW9wMW9wcW/1NS+wMXHx8e/wcbCws6+wcW9wMXhD+L5AAAAK3RSTlMAgrXLCxblBPz1ZjfcNkzdnraBg2XPyk0k6iXrjXCd5HGLnLeADMwXZBVL0OsnaQAAAJJJREFUKM+t0EcSgzAMQFEDBmx6OiW9J//+98te8iqDlm80428ZM8ccslVATxDgC1AozWNwO8V2C75U/KlgGhX3A7QvxbWH50Px18EtV/wGOp19ByLN1xl+k1aw0doG1Cbga/naAlwjVztgLTEClhIL4CixcRDL65QeEitwnKBKA/VD/3/9PlRvskC9MecsMnPPD3MGEI/gd5ReAAAAAElFTkSuQmCC"
                 alt="" class="arrow">
         </div>
-        <div class="margin-set my-card">
+        <div class="margin-set my-card" @click="toDetail">
             <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoBAMAAAB+0KVeAAAAIVBMVEVHcEz/iGT/hWL/hGL/hWL/hGL/hGL/hGP/hWP/jGn/hGISk7EWAAAACnRSTlMAHOamtu21p7QdUXNikQAAAFtJREFUKM9jYKAFENdahQIWGTIwMEatQgNLBRiYlwig6mT0MmBgWohu3iwFBq4F6IJAEZoIrsIAuATp5qTBI8i2atUybIIraGU7ZmKQUsCebLAmMMykWEiTFA8AIQBrdTyC6ekAAAAASUVORK5CYII="
                  width="20px" height="20px" alt=""> <span class="label">已获评价</span> <img
                 src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAkCAMAAABR74GsAAAAhFBMVEVHcEy+wMa+wcW9wMXQ0NDFxcW9wMW///+9wMW9wMW+wMW+wse+wMXBwca/wsW9wMW+wMa9wcW9wcW+wMa9wse9wMW9wcbAwMa/xsa9wMXAwMe9wMW9wcW/wca+wca9wMW9wsa+wMa9wMW9wMW9wcW/1NS+wMXHx8e/wcbCws6+wcW9wMXhD+L5AAAAK3RSTlMAgrXLCxblBPz1ZjfcNkzdnraBg2XPyk0k6iXrjXCd5HGLnLeADMwXZBVL0OsnaQAAAJJJREFUKM+t0EcSgzAMQFEDBmx6OiW9J//+98te8iqDlm80428ZM8ccslVATxDgC1AozWNwO8V2C75U/KlgGhX3A7QvxbWH50Px18EtV/wGOp19ByLN1xl+k1aw0doG1Cbga/naAlwjVztgLTEClhIL4CixcRDL65QeEitwnKBKA/VD/3/9PlRvskC9MecsMnPPD3MGEI/gd5ReAAAAAElFTkSuQmCC"
@@ -39,6 +39,7 @@
     import {Notify} from 'vant';
     import requset from '@/utils/request.js'
     import {removeToken} from '@/utils/auth'
+    import {getCommentNum} from '@/api/homePage'
 
     Vue.use(Notify);
     export default {
@@ -51,7 +52,25 @@
             },
             toLocation(web) {
                 toLocation(web, this)
+            },
+            toDetail(){
+                this.$router.push("/student_valuate")
             }
+        },
+        data() {
+            return {
+                discussNum: '',
+                replyNum: ''
+
+            }
+        },
+        created() {
+            getCommentNum().then(res => {
+                this.discussNum = res.data.discussNum
+                this.replyNum = res.data.replyNum
+
+
+            })
         }
     }
 </script>

@@ -1,7 +1,6 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name||getUserName }}</div>
-    <el-button @click="getListCity()">权限测试</el-button>
+    <div class="dashboard-text">随心在线学习系统————管理员服务</div>
   </div>
 </template>
 <script>

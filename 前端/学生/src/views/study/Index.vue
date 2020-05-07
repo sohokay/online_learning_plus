@@ -33,6 +33,7 @@
     import {isSelect} from '@/api/study'
     import {Dialog, Notify} from 'vant';
     import {mapGetters} from 'vuex'
+    import {setId} from '@/api/learningBehavior.js'
 
     export default {
         name: "Index",
@@ -49,7 +50,7 @@
             ]),
         },
         created() {
-            this.active=this.tabActivity
+            this.active = this.tabActivity
             isSelect(this.courseId).then(res => {
                 if (res.code === 201) {
                     Dialog.alert({
@@ -58,14 +59,16 @@
                     }).then(() => {
                         this.$router.push('/myCourse')
                     });
+                } else {
+                    setId(res.data.selectId)
                 }
             })
-           this.courseImg =this.$route.query.courseImg
+            this.courseImg = this.$route.query.courseImg
         },
         data() {
             return {
                 active: 0,
-                courseImg:''
+                courseImg: ''
             }
         },
 

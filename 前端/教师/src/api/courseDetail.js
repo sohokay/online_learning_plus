@@ -49,3 +49,29 @@ export function postNotice(data) {
 export function getCourseInfo(courseId) {
   return request.get("/course_info/" + courseId)
 }
+
+//以下为课件操作
+export function upCourseware(data) {
+  return request.post("/courseware/up", data)
+}
+
+export function postCourseware(data) {
+  return request.post("/courseware", data)
+}
+
+export function getCourseware(courseId) {
+  return request.get('/courseware', {
+    params: {
+      courseId
+    }
+  })
+}
+
+export function deleteCourseware(coursewareId) {
+  return request.delete("/courseware", {
+    params: {
+      coursewareId
+    }
+  })
+
+}

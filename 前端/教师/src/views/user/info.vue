@@ -16,6 +16,7 @@
               <el-upload
                 class="avatar-uploader"
                 action
+                list-type="pdf"
                 :show-file-list="true"
                 :http-request="upImg"
                 :before-upload="beforeAvatarUpload">

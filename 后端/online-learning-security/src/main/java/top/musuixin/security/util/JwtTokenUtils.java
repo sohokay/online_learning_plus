@@ -39,7 +39,7 @@ public class JwtTokenUtils implements Serializable {
     /**
      * 有效期12小时
      */
-    private static final long EXPIRE_TIME = 12 * 60 * 60 * 1000;
+    private static final long EXPIRE_TIME = 300 * 60 * 60 * 1000;
 
     /**
      * 生成令牌
