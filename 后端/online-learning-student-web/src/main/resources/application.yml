@@ -6,6 +6,8 @@ spring:
     sentinel:
       transport:
         dashboard: 47.104.253.73:8888
+        client-ip: 106.13.62.49
+        port: 8710
   redis:
     lettuce:
       pool:
@@ -44,7 +46,7 @@ logging:
   level:
     top.musuixin: trace
     com.alibaba.nacos.client: error
-  file: /logs/online-learning-student-web.log
+  file: ./online-learning-student-web.log
 knife4j:
   production: true
   # 开启Swagger的Basic认证功能,默认是false
