@@ -59,7 +59,7 @@ public class CodeGenerator {
 				"jdbc:mysql://rm-bp1783uv4c566u27tmo.mysql.rds.aliyuncs.com:3306/online_learning?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=UTC");
 		// dsc.setSchemaName("public");
 		dsc.setDriverName("com.mysql.cj.jdbc.Driver");
-		dsc.setUsername("musuixin");
+		dsc.setUsername("root");
 		dsc.setPassword("CSRQ19971031yu");
 		mpg.setDataSource(dsc);
 

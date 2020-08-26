@@ -5,24 +5,31 @@ spring:
   cloud:
     sentinel:
       transport:
-        dashboard: 47.104.253.73:8888
-        client-ip: 106.13.62.49
-        port: 8710
+        dashboard: *
+        #sentinel的ip：port
+        client-ip: *
+        #设置部署机的ip，如果不是部署在docker中的话，可以自动识别，无需设置
   redis:
     lettuce:
       pool:
-        max-active: 10
-        max-idle: 5
+        max-active: 8
+        max-idle: 8
         max-wait: -1ms
         min-idle: 0
-    host: 39.105.154.17
-    port: 6379
-    password: 950405
-    timeout: 50000
+    host: *
+    #在此设置自己的redis服务地址
+    port: *
+    #设置自己的redis端口
+    password: *
+    #设置自己的redis密码，如果没有则无需设置
+    timeout: 10000
   datasource:
-    username: musuixin
-    password: CSRQ19971031yu
-    url: jdbc:mysql://rm-bp1783uv4c566u27tmo.mysql.rds.aliyuncs.com/online_learning?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=GMT%2B8
+    username: *
+    #设置mysql的用户名
+    password: *
+    #设置mysql的密码
+    url: *
+    #设置mysql的地址
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       idleTimeout: 10000
