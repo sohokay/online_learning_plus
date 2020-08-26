@@ -56,3 +56,8 @@ student.musuixin.cn](http://student.musuixin.cn)
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/20200826212602736.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NjE4NTMx,size_16,color_FFFFFF,t_70#pic_center)
 # 访问登录
 使用之前的在线访问中的账户与密码即可访问。
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200826221058768.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NjE4NTMx,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200826221146151.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NjE4NTMx,size_16,color_FFFFFF,t_70#pic_center)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/20200826221205140.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM2NjE4NTMx,size_16,color_FFFFFF,t_70#pic_center)
+# 总结
+本系统模拟了简单的学生在线学习选课，教师添加课程，分析学生学习数据等，本系统为我的本科毕业设计，仅仅实现了简单的功能，还有许多不足和一些bug。欢迎学习交流。QQ：1804125652
