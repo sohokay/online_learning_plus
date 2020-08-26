@@ -16,13 +16,6 @@ spring:
   application:
     # 服务名
     name: online-learning-LoginRegister-web
-  cloud:
-    sentinel:
-      transport:
-        dashboard: *
-        #sentinel的ip：port
-        client-ip: *
-        #设置部署机的ip，如果不是部署在docker中的话，可以自动识别，无需设置
   redis:
     lettuce:
       pool:
